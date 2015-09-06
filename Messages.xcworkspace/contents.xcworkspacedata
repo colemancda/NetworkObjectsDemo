@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:MessagesServerDaemon"
+      name = "Dependencies">
+   </Group>
+   <FileRef
+      location = "group:MessagesServerDaemon/MessagesServerDaemon.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CoreMessagesServer/CoreMessagesServer.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Messages/Messages.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:CoreMessages/CoreMessages.xcodeproj">
+   </FileRef>
+</Workspace>

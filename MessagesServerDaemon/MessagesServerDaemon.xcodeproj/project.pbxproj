@@ -1,0 +1,380 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1AD4DDFB1B9D02E6000A582D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDFA1B9D02E6000A582D /* main.m */; };
+		1AD4DE0E1B9D038F000A582D /* MessagesServerDaemon in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1AD4DE0B1B9D0379000A582D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AD4DDEF1B9D02E6000A582D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AD4DDF61B9D02E6000A582D;
+			remoteInfo = MessagesServerDaemon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1AD4DDF51B9D02E6000A582D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		1AD4DE0D1B9D0380000A582D /* Copy Daemon */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				1AD4DE0E1B9D038F000A582D /* MessagesServerDaemon in Copy Daemon */,
+			);
+			name = "Copy Daemon";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AD4DE0F1B9D03A0000A582D /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MessagesServerDaemon; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AD4DDFA1B9D02E6000A582D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesServerDaemon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AD4DE071B9D032F000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AD4DDF41B9D02E6000A582D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AD4DE021B9D032F000A582D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1AD4DDEE1B9D02E6000A582D = {
+			isa = PBXGroup;
+			children = (
+				1AD4DDF91B9D02E6000A582D /* MessagesServerDaemon */,
+				1AD4DE061B9D032F000A582D /* MessagesServerDaemonBundle */,
+				1AD4DDF81B9D02E6000A582D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1AD4DDF81B9D02E6000A582D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */,
+				1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1AD4DDF91B9D02E6000A582D /* MessagesServerDaemon */ = {
+			isa = PBXGroup;
+			children = (
+				1AD4DDFA1B9D02E6000A582D /* main.m */,
+			);
+			path = MessagesServerDaemon;
+			sourceTree = "<group>";
+		};
+		1AD4DE061B9D032F000A582D /* MessagesServerDaemonBundle */ = {
+			isa = PBXGroup;
+			children = (
+				1AD4DE071B9D032F000A582D /* Info.plist */,
+			);
+			path = MessagesServerDaemonBundle;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1AD4DDF61B9D02E6000A582D /* MessagesServerDaemon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AD4DDFE1B9D02E6000A582D /* Build configuration list for PBXNativeTarget "MessagesServerDaemon" */;
+			buildPhases = (
+				1AD4DDF31B9D02E6000A582D /* Sources */,
+				1AD4DDF41B9D02E6000A582D /* Frameworks */,
+				1AD4DDF51B9D02E6000A582D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MessagesServerDaemon;
+			productName = MessagesServerDaemon;
+			productReference = 1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */;
+			productType = "com.apple.product-type.tool";
+		};
+		1AD4DE041B9D032F000A582D /* MessagesServerDaemonBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AD4DE081B9D032F000A582D /* Build configuration list for PBXNativeTarget "MessagesServerDaemonBundle" */;
+			buildPhases = (
+				1AD4DE011B9D032F000A582D /* Sources */,
+				1AD4DE021B9D032F000A582D /* Frameworks */,
+				1AD4DE031B9D032F000A582D /* Resources */,
+				1AD4DE0D1B9D0380000A582D /* Copy Daemon */,
+				1AD4DE0F1B9D03A0000A582D /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AD4DE0C1B9D0379000A582D /* PBXTargetDependency */,
+			);
+			name = MessagesServerDaemonBundle;
+			productName = MessagesServerDaemonBundle;
+			productReference = 1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1AD4DDEF1B9D02E6000A582D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = ColemanCDA;
+				TargetAttributes = {
+					1AD4DDF61B9D02E6000A582D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					1AD4DE041B9D032F000A582D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 1AD4DDF21B9D02E6000A582D /* Build configuration list for PBXProject "MessagesServerDaemon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1AD4DDEE1B9D02E6000A582D;
+			productRefGroup = 1AD4DDF81B9D02E6000A582D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1AD4DE041B9D032F000A582D /* MessagesServerDaemonBundle */,
+				1AD4DDF61B9D02E6000A582D /* MessagesServerDaemon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AD4DE031B9D032F000A582D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1AD4DDF31B9D02E6000A582D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AD4DDFB1B9D02E6000A582D /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AD4DE011B9D032F000A582D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1AD4DE0C1B9D0379000A582D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AD4DDF61B9D02E6000A582D /* MessagesServerDaemon */;
+			targetProxy = 1AD4DE0B1B9D0379000A582D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1AD4DDFC1B9D02E6000A582D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1AD4DDFD1B9D02E6000A582D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1AD4DDFF1B9D02E6000A582D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/$(PRODUCT_NAME).bundle/Contents/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1AD4DE001B9D02E6000A582D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1AD4DE091B9D032F000A582D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = MessagesServerDaemonBundle/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.MessagesServerDaemonBundle;
+				PRODUCT_NAME = $PROJECT_NAME;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		1AD4DE0A1B9D032F000A582D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = MessagesServerDaemonBundle/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.MessagesServerDaemonBundle;
+				PRODUCT_NAME = $PROJECT_NAME;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1AD4DDF21B9D02E6000A582D /* Build configuration list for PBXProject "MessagesServerDaemon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AD4DDFC1B9D02E6000A582D /* Debug */,
+				1AD4DDFD1B9D02E6000A582D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AD4DDFE1B9D02E6000A582D /* Build configuration list for PBXNativeTarget "MessagesServerDaemon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AD4DDFF1B9D02E6000A582D /* Debug */,
+				1AD4DE001B9D02E6000A582D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1AD4DE081B9D032F000A582D /* Build configuration list for PBXNativeTarget "MessagesServerDaemonBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AD4DE091B9D032F000A582D /* Debug */,
+				1AD4DE0A1B9D032F000A582D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1AD4DDEF1B9D02E6000A582D /* Project object */;
+}
