@@ -1,2 +1,7 @@
 
 Carthage/*
+
+Messages/Messages.xcodeproj/xcshareddata/*
+CoreMessages/CoreMessages.xcodeproj/xcshareddata/*
+CoreMessagesServer/CoreMessagesServer.xcodeproj/xcshareddata/*
+MessagesServerDaemon/MessagesServerDaemon.xcodeproj/xcshareddata/*
