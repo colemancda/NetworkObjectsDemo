@@ -36,12 +36,6 @@
 		1AD4DDDF1B9D0257000A582D /* MessagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDE31B9D0257000A582D /* MessagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTests.swift; sourceTree = "<group>"; };
 		1AD4DDE51B9D0257000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1AD4DE211B9D07BB000A582D /* SwiftWebSocket.xcodeproj */ = {isa = PBXFileReference; name = SwiftWebSocket.xcodeproj; path = Carthage/Checkouts/SwiftWebSocket/SwiftWebSocket.xcodeproj; sourceTree = "<group>"; };
-		1AD4DE221B9D07BB000A582D /* SwiftFoundation.xcodeproj */ = {isa = PBXFileReference; name = SwiftFoundation.xcodeproj; path = Carthage/Checkouts/SwiftFoundation/SwiftFoundation/SwiftFoundation.xcodeproj; sourceTree = "<group>"; };
-		1AD4DE231B9D07BB000A582D /* NetworkObjects.xcodeproj */ = {isa = PBXFileReference; name = NetworkObjects.xcodeproj; path = Carthage/Checkouts/NetworkObjects/NetworkObjects/NetworkObjects.xcodeproj; sourceTree = "<group>"; };
-		1AD4DE241B9D07BB000A582D /* libb64.xcodeproj */ = {isa = PBXFileReference; name = libb64.xcodeproj; path = Carthage/Checkouts/libb64/Xcode/libb64.xcodeproj; sourceTree = "<group>"; };
-		1AD4DE251B9D07BB000A582D /* libjson-c.xcodeproj */ = {isa = PBXFileReference; name = "libjson-c.xcodeproj"; path = "Carthage/Checkouts/json-c/Xcode/libjson-c.xcodeproj"; sourceTree = "<group>"; };
-		1AD4DE261B9D07BB000A582D /* CoreModel.xcodeproj */ = {isa = PBXFileReference; name = CoreModel.xcodeproj; path = Carthage/Checkouts/CoreModel/CoreModel/CoreModel.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +59,6 @@
 		1AD4DDC21B9D0257000A582D = {
 			isa = PBXGroup;
 			children = (
-				1AD4DE271B9D07BB000A582D /* Dependencies */,
 				1AD4DDCD1B9D0257000A582D /* Messages */,
 				1AD4DDE21B9D0257000A582D /* MessagesTests */,
 				1AD4DDCC1B9D0257000A582D /* Products */,
@@ -101,20 +94,6 @@
 				1AD4DDE51B9D0257000A582D /* Info.plist */,
 			);
 			path = MessagesTests;
-			sourceTree = "<group>";
-		};
-		1AD4DE271B9D07BB000A582D /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				1AD4DE211B9D07BB000A582D /* SwiftWebSocket.xcodeproj */,
-				1AD4DE221B9D07BB000A582D /* SwiftFoundation.xcodeproj */,
-				1AD4DE231B9D07BB000A582D /* NetworkObjects.xcodeproj */,
-				1AD4DE241B9D07BB000A582D /* libb64.xcodeproj */,
-				1AD4DE251B9D07BB000A582D /* libjson-c.xcodeproj */,
-				1AD4DE261B9D07BB000A582D /* CoreModel.xcodeproj */,
-			);
-			name = Dependencies;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,6 +387,7 @@
 				1AD4DDEA1B9D0257000A582D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1AD4DDEB1B9D0257000A582D /* Build configuration list for PBXNativeTarget "MessagesTests" */ = {
 			isa = XCConfigurationList;
@@ -416,6 +396,7 @@
 				1AD4DDED1B9D0257000A582D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
