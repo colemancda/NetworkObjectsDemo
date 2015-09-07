@@ -23,6 +23,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A78E0811B9D415D00704D24 /* b64.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = b64.framework; path = ../Carthage/Build/Mac/b64.framework; sourceTree = "<group>"; };
+		1A78E0821B9D415D00704D24 /* CoreModel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreModel.framework; path = ../Carthage/Build/Mac/CoreModel.framework; sourceTree = "<group>"; };
+		1A78E0831B9D415D00704D24 /* JSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSON.framework; path = ../Carthage/Build/Mac/JSON.framework; sourceTree = "<group>"; };
+		1A78E0851B9D415D00704D24 /* SwiftFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftFoundation.framework; path = ../Carthage/Build/Mac/SwiftFoundation.framework; sourceTree = "<group>"; };
+		1A78E08F1B9D41B000704D24 /* b64.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = b64.framework; path = ../Carthage/Build/iOS/b64.framework; sourceTree = "<group>"; };
+		1A78E0901B9D41B000704D24 /* CoreModel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreModel.framework; path = ../Carthage/Build/iOS/CoreModel.framework; sourceTree = "<group>"; };
+		1A78E0911B9D41B000704D24 /* JSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSON.framework; path = ../Carthage/Build/iOS/JSON.framework; sourceTree = "<group>"; };
+		1A78E0921B9D41B000704D24 /* SwiftFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftFoundation.framework; path = ../Carthage/Build/iOS/SwiftFoundation.framework; sourceTree = "<group>"; };
 		1AD4DD841B9D01FC000A582D /* CoreMessages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreMessages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DD871B9D01FC000A582D /* CoreMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreMessages.h; sourceTree = "<group>"; };
 		1AD4DD891B9D01FC000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,9 +58,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A78E08D1B9D417D00704D24 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				1A78E0931B9D41B300704D24 /* iOS */,
+				1A78E08E1B9D418600704D24 /* OS X */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		1A78E08E1B9D418600704D24 /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				1A78E0811B9D415D00704D24 /* b64.framework */,
+				1A78E0821B9D415D00704D24 /* CoreModel.framework */,
+				1A78E0831B9D415D00704D24 /* JSON.framework */,
+				1A78E0851B9D415D00704D24 /* SwiftFoundation.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		1A78E0931B9D41B300704D24 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				1A78E08F1B9D41B000704D24 /* b64.framework */,
+				1A78E0901B9D41B000704D24 /* CoreModel.framework */,
+				1A78E0911B9D41B000704D24 /* JSON.framework */,
+				1A78E0921B9D41B000704D24 /* SwiftFoundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		1AD4DD7A1B9D01FC000A582D = {
 			isa = PBXGroup;
 			children = (
+				1A78E08D1B9D417D00704D24 /* Dependencies */,
 				1AD4DD861B9D01FC000A582D /* CoreMessages */,
 				1AD4DD921B9D01FD000A582D /* CoreMessagesTests */,
 				1AD4DD851B9D01FC000A582D /* Products */,
