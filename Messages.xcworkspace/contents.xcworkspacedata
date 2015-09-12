@@ -2,37 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "container:CoreMessages/CoreMessages.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Messages/Messages.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:MessagesServerDaemon/MessagesServerDaemon.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:CoreMessages/CoreMessages.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:CoreMessagesServer/CoreMessagesServer.xcodeproj">
    </FileRef>
-   <Group
-      location = "container:"
-      name = "Dependencies">
-      <FileRef
-         location = "group:Carthage/Checkouts/SwiftWebSocket/SwiftWebSocket.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/SwiftFoundation/SwiftFoundation/SwiftFoundation.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/NetworkObjects/NetworkObjects/NetworkObjects.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/libb64/Xcode/libb64.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/json-c/Xcode/libjson-c.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/CoreModel/CoreModel/CoreModel.xcodeproj">
-      </FileRef>
-   </Group>
 </Workspace>

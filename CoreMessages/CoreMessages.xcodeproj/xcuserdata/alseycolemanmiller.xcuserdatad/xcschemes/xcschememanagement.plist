@@ -4,14 +4,34 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CoreMessages.xcscheme_^#shared#^_</key>
+		<key>CoreMessages OS X copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>CoreMessages OS X.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>CoreMessages iOS.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>1A7DD7571BA4B838000140AA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A7DD7771BA4CE64000140AA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1AD4DD831B9D01FC000A582D</key>
 		<dict>
 			<key>primary</key>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A7DD7761BA4C37D000140AA /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7751BA4C37D000140AA /* ServerManager.swift */; settings = {ASSET_TAGS = (); }; };
 		1AD4DDAC1B9D0235000A582D /* CoreMessagesServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD4DDAB1B9D0235000A582D /* CoreMessagesServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AD4DDB31B9D0235000A582D /* CoreMessagesServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD4DDA81B9D0235000A582D /* CoreMessagesServer.framework */; settings = {ASSET_TAGS = (); }; };
 		1AD4DDB81B9D0235000A582D /* CoreMessagesServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDB71B9D0235000A582D /* CoreMessagesServerTests.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A7DD7751BA4C37D000140AA /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		1AD4DDA81B9D0235000A582D /* CoreMessagesServer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreMessagesServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDAB1B9D0235000A582D /* CoreMessagesServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreMessagesServer.h; sourceTree = "<group>"; };
 		1AD4DDAD1B9D0235000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				1AD4DDAB1B9D0235000A582D /* CoreMessagesServer.h */,
+				1A7DD7751BA4C37D000140AA /* ServerManager.swift */,
 				1AD4DDAD1B9D0235000A582D /* Info.plist */,
 			);
 			path = CoreMessagesServer;
@@ -142,6 +145,7 @@
 		1AD4DD9F1B9D0235000A582D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = ColemanCDA;
 				TargetAttributes = {
@@ -193,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A7DD7761BA4C37D000140AA /* ServerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +307,7 @@
 		1AD4DDBD1B9D0235000A582D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -314,12 +320,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.CoreMessagesServer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		1AD4DDBE1B9D0235000A582D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
