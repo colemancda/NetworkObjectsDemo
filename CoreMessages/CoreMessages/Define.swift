@@ -19,3 +19,5 @@ public func ManagedObjectModel() -> NSManagedObjectModel {
 
 /// The bundle identifier of CoreMessages.
 public let BundleIdentifier = "com.colemancda.CoreMessages"
+
+public let ResourceIDAttributeName = "id"

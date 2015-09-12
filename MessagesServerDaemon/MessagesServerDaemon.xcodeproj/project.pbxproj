@@ -12,6 +12,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1A7DD7CA1BA4E7B2000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DDA81B9D0235000A582D;
+			remoteInfo = CoreMessagesServer;
+		};
+		1A7DD7CC1BA4E7B2000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DDB21B9D0235000A582D;
+			remoteInfo = CoreMessagesServerTests;
+		};
+		1A7DD7CE1BA4E7C0000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AD4DDA71B9D0235000A582D;
+			remoteInfo = CoreMessagesServer;
+		};
 		1AD4DE0B1B9D0379000A582D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AD4DDEF1B9D02E6000A582D /* Project object */;
@@ -56,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
+		1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessagesServer.xcodeproj; path = ../CoreMessagesServer/CoreMessagesServer.xcodeproj; sourceTree = "<group>"; };
 		1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MessagesServerDaemon; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDFA1B9D02E6000A582D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesServerDaemon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,9 +102,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A7DD7C61BA4E7B2000140AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A7DD7CB1BA4E7B2000140AA /* CoreMessagesServer.framework */,
+				1A7DD7CD1BA4E7B2000140AA /* CoreMessagesServerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1AD4DDEE1B9D02E6000A582D = {
 			isa = PBXGroup;
 			children = (
+				1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */,
 				1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */,
 				1AD4DDF91B9D02E6000A582D /* MessagesServerDaemon */,
 				1AD4DE061B9D032F000A582D /* MessagesServerDaemonBundle */,
@@ -129,6 +161,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A7DD7CF1BA4E7C0000140AA /* PBXTargetDependency */,
 			);
 			name = MessagesServerDaemon;
 			productName = MessagesServerDaemon;
@@ -182,6 +215,12 @@
 			mainGroup = 1AD4DDEE1B9D02E6000A582D;
 			productRefGroup = 1AD4DDF81B9D02E6000A582D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1A7DD7C61BA4E7B2000140AA /* Products */;
+					ProjectRef = 1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1AD4DE041B9D032F000A582D /* MessagesServerDaemonBundle */,
@@ -189,6 +228,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1A7DD7CB1BA4E7B2000140AA /* CoreMessagesServer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CoreMessagesServer.framework;
+			remoteRef = 1A7DD7CA1BA4E7B2000140AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7DD7CD1BA4E7B2000140AA /* CoreMessagesServerTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CoreMessagesServerTests.xctest;
+			remoteRef = 1A7DD7CC1BA4E7B2000140AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1AD4DE031B9D032F000A582D /* Resources */ = {
@@ -219,6 +275,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A7DD7CF1BA4E7C0000140AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CoreMessagesServer;
+			targetProxy = 1A7DD7CE1BA4E7C0000140AA /* PBXContainerItemProxy */;
+		};
 		1AD4DE0C1B9D0379000A582D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1AD4DDF61B9D02E6000A582D /* MessagesServerDaemon */;

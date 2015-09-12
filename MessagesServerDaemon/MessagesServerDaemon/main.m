@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-@import CoreMessagesServer
+@import CoreMessagesServer;
 
 int main(int argc, const char * argv[]) {
     
     @autoreleasepool {
         
-        start
+        [MessagesServer start];
     }
     
     [[NSRunLoop currentRunLoop] run];

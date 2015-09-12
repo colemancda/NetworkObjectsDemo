@@ -11,10 +11,19 @@ import CoreModel
 import NetworkObjects
 import CoreMessages
 import RoutingHTTPServer
+import CoreData
 
-public func StartServer(port: Int) {
+/// Objective-C wrapper
+@objc public class MessagesServer: NSObject {
     
-    try! ServerManager.sharedManager.start(port)
+    public static func start() {
+        
+        let port = 8080
+        
+        NSLog("Starting server on port: \(port)")
+        
+        try! ServerManager.sharedManager.start(port)
+    }
 }
 
 public class ServerManager: ServerDataSource {
@@ -60,12 +69,22 @@ public class ServerManager: ServerDataSource {
             // process request
             let httpResponse = self.server.input(httpRequest)
             
+            routeResponse.statusCode = httpResponse.statusCode
             
+            for (header, value) in httpResponse.headers {
+                
+                routeResponse.setHeader(header, value: value)
+            }
+            
+            if httpResponse.body.count > 0 {
+                
+                routeResponse.respondWithData(NSData(bytes: httpResponse.body))
+            }
         }
         
         // add handlers
         
-        let instancePathExpression = "{^/([a-z]+)/(\\d+)}"
+        let instancePathExpression = "/:entity/:id"
         
         HTTPServer.get(instancePathExpression, withBlock: handler)
         
@@ -75,18 +94,28 @@ public class ServerManager: ServerDataSource {
         
         // create handler
         
-        HTTPServer.post("{^/([a-z]+)}", withBlock: handler)
+        HTTPServer.post("/:entity", withBlock: handler)
         
         // search handler
         
-        HTTPServer.post("{^/search/([a-z]+)}", withBlock: handler)
+        HTTPServer.post("/search/:entity", withBlock: handler)
         
         // function handler
         
-        HTTPServer.post("{^/([a-z]+)/(\\d+)}", withBlock: handler)
+        HTTPServer.post("/:entity/:id/:function", withBlock: handler)
         
         return HTTPServer
     }()
+    
+    public lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: CoreMessages.ManagedObjectModel())
+        
+        try! persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: ServerSQLiteFileURL, options: nil)
+        
+        return persistentStoreCoordinator
+        
+        }()
     
     // MARK: - Initialization
     
@@ -110,6 +139,16 @@ public class ServerManager: ServerDataSource {
     
     public func server<T : ServerType>(server: T, storeForRequest request: RequestMessage) -> Store {
         
+        // create a new managed object context
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         
+        managedObjectContext.undoManager = nil
+        
+        // setup persistent store coordinator
+        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+        
+        let store = CoreDataStore(managedObjectContext: managedObjectContext, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
+        
+        return store
     }
 }
