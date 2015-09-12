@@ -38,35 +38,54 @@ public class ServerManager: ServerDataSource {
         
         let HTTPServer = RoutingHTTPServer()
         
-        // instance handlers
-        do {
+        let handler = { (routeRequest: RouteRequest!, routeResponse: RouteResponse!) -> Void in
             
-            let instancePathExpression = "{^/([a-z]+)/(\\d+)}"
+            // create request
+            var httpRequest = Server.HTTP.Request()
             
-            let instanceBlock = { (routeRequest: RouteRequest!, routeResponse: RouteResponse!) -> Void in
+            httpRequest.headers = routeRequest.headers as! [String: String]
+            
+            httpRequest.URI = routeRequest.url().relativeString!
+            
+            httpRequest.method = SwiftFoundation.HTTP.Method(rawValue: routeRequest.method())!
+            
+            // add body
+            if let jsonString = NSString(data: routeRequest.body(), encoding: NSUTF8StringEncoding),
+                let jsonValue = JSON.Value(string: jsonString as String),
+                let jsonObject = jsonValue.objectValue {
                 
-                var request = Server.HTTP.Request()
-                
-                request.URI = routeRequest.url().relativeString!
-                
-                request.
+                httpRequest.body = jsonObject
             }
             
-            HTTPServer.get(instancePathExpression, withBlock: instanceBlock)
+            // process request
+            let httpResponse = self.server.input(httpRequest)
             
-            HTTPServer.put(instancePathExpression, withBlock: instanceBlock)
             
-            HTTPServer.delete(instancePathExpression, withBlock: instanceBlock)
         }
+        
+        // add handlers
+        
+        let instancePathExpression = "{^/([a-z]+)/(\\d+)}"
+        
+        HTTPServer.get(instancePathExpression, withBlock: handler)
+        
+        HTTPServer.put(instancePathExpression, withBlock: handler)
+        
+        HTTPServer.delete(instancePathExpression, withBlock: handler)
         
         // create handler
         
-        
+        HTTPServer.post("{^/([a-z]+)}", withBlock: handler)
         
         // search handler
         
+        HTTPServer.post("{^/search/([a-z]+)}", withBlock: handler)
         
+        // function handler
         
+        HTTPServer.post("{^/([a-z]+)/(\\d+)}", withBlock: handler)
+        
+        return HTTPServer
     }()
     
     // MARK: - Initialization
