@@ -16,6 +16,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1A7DD7991BA4D5EA000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD841B9D01FC000A582D;
+			remoteInfo = "CoreMessages OS X";
+		};
+		1A7DD79B1BA4D5EA000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD8E1B9D01FD000A582D;
+			remoteInfo = CoreMessagesTests;
+		};
+		1A7DD79D1BA4D5EA000140AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7DD7621BA4B838000140AA;
+			remoteInfo = "CoreMessages iOS";
+		};
 		1AD4DDE01B9D0257000A582D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AD4DDC31B9D0257000A582D /* Project object */;
@@ -26,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = /Users/alseycolemanmiller/Developer/NetworkObjectsDemo/MessagesServerDaemon/../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<absolute>"; };
 		1AD4DDCB1B9D0257000A582D /* Messages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDCE1B9D0257000A582D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AD4DDD01B9D0257000A582D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,9 +78,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A7DD7941BA4D5EA000140AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A7DD79A1BA4D5EA000140AA /* CoreMessages.framework */,
+				1A7DD79C1BA4D5EA000140AA /* CoreMessagesTests.xctest */,
+				1A7DD79E1BA4D5EA000140AA /* CoreMessages.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1AD4DDC21B9D0257000A582D = {
 			isa = PBXGroup;
 			children = (
+				1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */,
 				1AD4DDCD1B9D0257000A582D /* Messages */,
 				1AD4DDE21B9D0257000A582D /* MessagesTests */,
 				1AD4DDCC1B9D0257000A582D /* Products */,
@@ -163,6 +196,12 @@
 			mainGroup = 1AD4DDC21B9D0257000A582D;
 			productRefGroup = 1AD4DDCC1B9D0257000A582D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1A7DD7941BA4D5EA000140AA /* Products */;
+					ProjectRef = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1AD4DDCA1B9D0257000A582D /* Messages */,
@@ -170,6 +209,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1A7DD79A1BA4D5EA000140AA /* CoreMessages.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CoreMessages.framework;
+			remoteRef = 1A7DD7991BA4D5EA000140AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7DD79C1BA4D5EA000140AA /* CoreMessagesTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CoreMessagesTests.xctest;
+			remoteRef = 1A7DD79B1BA4D5EA000140AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7DD79E1BA4D5EA000140AA /* CoreMessages.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CoreMessages.framework;
+			remoteRef = 1A7DD79D1BA4D5EA000140AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1AD4DDC91B9D0257000A582D /* Resources */ = {

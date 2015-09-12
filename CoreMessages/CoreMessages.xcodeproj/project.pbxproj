@@ -12,9 +12,6 @@
 		1A7DD7591BA4B838000140AA /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7531BA4B15D000140AA /* Define.swift */; settings = {ASSET_TAGS = (); }; };
 		1A7DD75A1BA4B838000140AA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7501BA4AAC5000140AA /* Model.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		1A7DD75D1BA4B838000140AA /* CoreMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD4DD871B9D01FC000A582D /* CoreMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A7DD7791BA4CE64000140AA /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7531BA4B15D000140AA /* Define.swift */; settings = {ASSET_TAGS = (); }; };
-		1A7DD77A1BA4CE64000140AA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7501BA4AAC5000140AA /* Model.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
-		1A7DD77D1BA4CE64000140AA /* CoreMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD4DD871B9D01FC000A582D /* CoreMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AD4DD881B9D01FC000A582D /* CoreMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD4DD871B9D01FC000A582D /* CoreMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AD4DD8F1B9D01FD000A582D /* CoreMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD4DD841B9D01FC000A582D /* CoreMessages.framework */; settings = {ASSET_TAGS = (); }; };
 		1AD4DD941B9D01FD000A582D /* CoreMessagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DD931B9D01FD000A582D /* CoreMessagesTests.swift */; };
@@ -34,8 +31,6 @@
 		1A7DD7511BA4AAC5000140AA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		1A7DD7531BA4B15D000140AA /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		1A7DD7621BA4B838000140AA /* CoreMessages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreMessages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A7DD7821BA4CE64000140AA /* CoreMessages OS X copy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "CoreMessages OS X copy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A7DD7831BA4CE64000140AA /* CoreMessages OS X copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CoreMessages OS X copy-Info.plist"; path = "/Users/alseycolemanmiller/Developer/NetworkObjectsDemo/CoreMessages/CoreMessages OS X copy-Info.plist"; sourceTree = "<absolute>"; };
 		1AD4DD841B9D01FC000A582D /* CoreMessages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreMessages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DD871B9D01FC000A582D /* CoreMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreMessages.h; sourceTree = "<group>"; };
 		1AD4DD891B9D01FC000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,13 +41,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A7DD75B1BA4B838000140AA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1A7DD77B1BA4CE64000140AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -83,7 +71,6 @@
 				1AD4DD861B9D01FC000A582D /* CoreMessages */,
 				1AD4DD921B9D01FD000A582D /* CoreMessagesTests */,
 				1AD4DD851B9D01FC000A582D /* Products */,
-				1A7DD7831BA4CE64000140AA /* CoreMessages OS X copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,7 +80,6 @@
 				1AD4DD841B9D01FC000A582D /* CoreMessages.framework */,
 				1AD4DD8E1B9D01FD000A582D /* CoreMessagesTests.xctest */,
 				1A7DD7621BA4B838000140AA /* CoreMessages.framework */,
-				1A7DD7821BA4CE64000140AA /* CoreMessages OS X copy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,14 +115,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1A7DD77C1BA4CE64000140AA /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1A7DD77D1BA4CE64000140AA /* CoreMessages.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1AD4DD811B9D01FC000A582D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,24 +142,6 @@
 			name = "CoreMessages iOS";
 			productName = CoreMessages;
 			productReference = 1A7DD7621BA4B838000140AA /* CoreMessages.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		1A7DD7771BA4CE64000140AA /* CoreMessages OS X copy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1A7DD77F1BA4CE64000140AA /* Build configuration list for PBXNativeTarget "CoreMessages OS X copy" */;
-			buildPhases = (
-				1A7DD7781BA4CE64000140AA /* Sources */,
-				1A7DD77B1BA4CE64000140AA /* Frameworks */,
-				1A7DD77C1BA4CE64000140AA /* Headers */,
-				1A7DD77E1BA4CE64000140AA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "CoreMessages OS X copy";
-			productName = CoreMessages;
-			productReference = 1A7DD7821BA4CE64000140AA /* CoreMessages OS X copy.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		1AD4DD831B9D01FC000A582D /* CoreMessages OS X */ = {
@@ -253,20 +213,12 @@
 				1AD4DD831B9D01FC000A582D /* CoreMessages OS X */,
 				1AD4DD8D1B9D01FD000A582D /* CoreMessagesTests */,
 				1A7DD7571BA4B838000140AA /* CoreMessages iOS */,
-				1A7DD7771BA4CE64000140AA /* CoreMessages OS X copy */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1A7DD75E1BA4B838000140AA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1A7DD77E1BA4CE64000140AA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,15 +248,6 @@
 			files = (
 				1A7DD7591BA4B838000140AA /* Define.swift in Sources */,
 				1A7DD75A1BA4B838000140AA /* Model.xcdatamodeld in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1A7DD7781BA4CE64000140AA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1A7DD7791BA4CE64000140AA /* Define.swift in Sources */,
-				1A7DD77A1BA4CE64000140AA /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,53 +331,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		1A7DD7801BA4CE64000140AA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					$SRCROOT/../Carthage/Build/Mac,
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "CoreMessages OS X copy-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.CoreMessages;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		1A7DD7811BA4CE64000140AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					$SRCROOT/../Carthage/Build/Mac,
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "CoreMessages OS X copy-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.CoreMessages;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -541,6 +437,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.CoreMessages;
 				PRODUCT_NAME = CoreMessages;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -565,6 +462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colemancda.CoreMessages;
 				PRODUCT_NAME = CoreMessages;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -599,15 +497,6 @@
 			buildConfigurations = (
 				1A7DD7601BA4B838000140AA /* Debug */,
 				1A7DD7611BA4B838000140AA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1A7DD77F1BA4CE64000140AA /* Build configuration list for PBXNativeTarget "CoreMessages OS X copy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1A7DD7801BA4CE64000140AA /* Debug */,
-				1A7DD7811BA4CE64000140AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,22 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@import CoreMessagesServer
 
 int main(int argc, const char * argv[]) {
+    
     @autoreleasepool {
         
-        int i;
-        
-        // Disable output buffering.
-        setbuf(stdout, NULL);
-        
-        for (i = 1; i <= 10; i++) {
-            printf("%d\n", i);
-            usleep(500000);
-        }
-        
-        // insert code here...
-        NSLog(@"Hello, World!");
+        start
     }
+    
+    [[NSRunLoop currentRunLoop] run];
+    
     return 0;
 }
