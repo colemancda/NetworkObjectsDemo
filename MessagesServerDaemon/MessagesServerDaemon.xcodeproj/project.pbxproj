@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A7DD7D21BA4EBD4000140AA /* CoreMessagesServer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7CB1BA4E7B2000140AA /* CoreMessagesServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7DC1BA4EBF2000140AA /* b64.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D31BA4EBF1000140AA /* b64.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7DD1BA4EBF2000140AA /* CocoaAsyncSocket.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D41BA4EBF1000140AA /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7DE1BA4EBF2000140AA /* CocoaHTTPServer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D51BA4EBF1000140AA /* CocoaHTTPServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7DF1BA4EBF2000140AA /* CoreModel.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D61BA4EBF1000140AA /* CoreModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7E01BA4EBF2000140AA /* JSON.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D71BA4EBF1000140AA /* JSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7E11BA4EBF2000140AA /* NetworkObjects.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D81BA4EBF2000140AA /* NetworkObjects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7E21BA4EBF2000140AA /* RoutingHTTPServer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7D91BA4EBF2000140AA /* RoutingHTTPServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7E31BA4EBF2000140AA /* SwiftFoundation.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7DA1BA4EBF2000140AA /* SwiftFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A7DD7E41BA4EBF2000140AA /* SwiftWebSocket.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7DB1BA4EBF2000140AA /* SwiftWebSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1AD4DDFB1B9D02E6000A582D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDFA1B9D02E6000A582D /* main.m */; };
 		1AD4DE0E1B9D038F000A582D /* MessagesServerDaemon in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -69,6 +79,16 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1A7DD7DC1BA4EBF2000140AA /* b64.framework in Copy Frameworks */,
+				1A7DD7DD1BA4EBF2000140AA /* CocoaAsyncSocket.framework in Copy Frameworks */,
+				1A7DD7DE1BA4EBF2000140AA /* CocoaHTTPServer.framework in Copy Frameworks */,
+				1A7DD7DF1BA4EBF2000140AA /* CoreModel.framework in Copy Frameworks */,
+				1A7DD7E01BA4EBF2000140AA /* JSON.framework in Copy Frameworks */,
+				1A7DD7E11BA4EBF2000140AA /* NetworkObjects.framework in Copy Frameworks */,
+				1A7DD7E21BA4EBF2000140AA /* RoutingHTTPServer.framework in Copy Frameworks */,
+				1A7DD7E31BA4EBF2000140AA /* SwiftFoundation.framework in Copy Frameworks */,
+				1A7DD7E41BA4EBF2000140AA /* SwiftWebSocket.framework in Copy Frameworks */,
+				1A7DD7D21BA4EBD4000140AA /* CoreMessagesServer.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +98,15 @@
 /* Begin PBXFileReference section */
 		1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
 		1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessagesServer.xcodeproj; path = ../CoreMessagesServer/CoreMessagesServer.xcodeproj; sourceTree = "<group>"; };
+		1A7DD7D31BA4EBF1000140AA /* b64.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = b64.framework; path = ../Carthage/Build/Mac/b64.framework; sourceTree = "<group>"; };
+		1A7DD7D41BA4EBF1000140AA /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = ../Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		1A7DD7D51BA4EBF1000140AA /* CocoaHTTPServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaHTTPServer.framework; path = ../Carthage/Build/Mac/CocoaHTTPServer.framework; sourceTree = "<group>"; };
+		1A7DD7D61BA4EBF1000140AA /* CoreModel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreModel.framework; path = ../Carthage/Build/Mac/CoreModel.framework; sourceTree = "<group>"; };
+		1A7DD7D71BA4EBF1000140AA /* JSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSON.framework; path = ../Carthage/Build/Mac/JSON.framework; sourceTree = "<group>"; };
+		1A7DD7D81BA4EBF2000140AA /* NetworkObjects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkObjects.framework; path = ../Carthage/Build/Mac/NetworkObjects.framework; sourceTree = "<group>"; };
+		1A7DD7D91BA4EBF2000140AA /* RoutingHTTPServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoutingHTTPServer.framework; path = ../Carthage/Build/Mac/RoutingHTTPServer.framework; sourceTree = "<group>"; };
+		1A7DD7DA1BA4EBF2000140AA /* SwiftFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftFoundation.framework; path = ../Carthage/Build/Mac/SwiftFoundation.framework; sourceTree = "<group>"; };
+		1A7DD7DB1BA4EBF2000140AA /* SwiftWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftWebSocket.framework; path = ../Carthage/Build/Mac/SwiftWebSocket.framework; sourceTree = "<group>"; };
 		1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MessagesServerDaemon; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDFA1B9D02E6000A582D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesServerDaemon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,11 +140,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1AD4DDEE1B9D02E6000A582D = {
+		1A7DD7E51BA4EBFE000140AA /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
 				1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */,
 				1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */,
+				1A7DD7D31BA4EBF1000140AA /* b64.framework */,
+				1A7DD7D41BA4EBF1000140AA /* CocoaAsyncSocket.framework */,
+				1A7DD7D51BA4EBF1000140AA /* CocoaHTTPServer.framework */,
+				1A7DD7D61BA4EBF1000140AA /* CoreModel.framework */,
+				1A7DD7D71BA4EBF1000140AA /* JSON.framework */,
+				1A7DD7D81BA4EBF2000140AA /* NetworkObjects.framework */,
+				1A7DD7D91BA4EBF2000140AA /* RoutingHTTPServer.framework */,
+				1A7DD7DA1BA4EBF2000140AA /* SwiftFoundation.framework */,
+				1A7DD7DB1BA4EBF2000140AA /* SwiftWebSocket.framework */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		1AD4DDEE1B9D02E6000A582D = {
+			isa = PBXGroup;
+			children = (
+				1A7DD7E51BA4EBFE000140AA /* Dependencies */,
 				1AD4DDF91B9D02E6000A582D /* MessagesServerDaemon */,
 				1AD4DE061B9D032F000A582D /* MessagesServerDaemonBundle */,
 				1AD4DDF81B9D02E6000A582D /* Products */,
