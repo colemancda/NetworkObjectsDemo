@@ -16,27 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1A7DD7991BA4D5EA000140AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1AD4DD841B9D01FC000A582D;
-			remoteInfo = "CoreMessages OS X";
-		};
-		1A7DD79B1BA4D5EA000140AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1AD4DD8E1B9D01FD000A582D;
-			remoteInfo = CoreMessagesTests;
-		};
-		1A7DD79D1BA4D5EA000140AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1A7DD7621BA4B838000140AA;
-			remoteInfo = "CoreMessages iOS";
-		};
 		1AD4DDE01B9D0257000A582D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AD4DDC31B9D0257000A582D /* Project object */;
@@ -44,10 +23,30 @@
 			remoteGlobalIDString = 1AD4DDCA1B9D0257000A582D;
 			remoteInfo = Messages;
 		};
+		6E5E7C7E1BA53EE300F02BCE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD841B9D01FC000A582D;
+			remoteInfo = "CoreMessages OS X";
+		};
+		6E5E7C801BA53EE300F02BCE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD8E1B9D01FD000A582D;
+			remoteInfo = CoreMessagesTests;
+		};
+		6E5E7C821BA53EE300F02BCE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7DD7621BA4B838000140AA;
+			remoteInfo = "CoreMessages iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = /Users/alseycolemanmiller/Developer/NetworkObjectsDemo/MessagesServerDaemon/../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<absolute>"; };
 		1AD4DDCB1B9D0257000A582D /* Messages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDCE1B9D0257000A582D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AD4DDD01B9D0257000A582D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +57,7 @@
 		1AD4DDDF1B9D0257000A582D /* MessagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDE31B9D0257000A582D /* MessagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTests.swift; sourceTree = "<group>"; };
 		1AD4DDE51B9D0257000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,20 +78,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A7DD7941BA4D5EA000140AA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1A7DD79A1BA4D5EA000140AA /* CoreMessages.framework */,
-				1A7DD79C1BA4D5EA000140AA /* CoreMessagesTests.xctest */,
-				1A7DD79E1BA4D5EA000140AA /* CoreMessages.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1AD4DDC21B9D0257000A582D = {
 			isa = PBXGroup;
 			children = (
-				1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */,
+				6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */,
 				1AD4DDCD1B9D0257000A582D /* Messages */,
 				1AD4DDE21B9D0257000A582D /* MessagesTests */,
 				1AD4DDCC1B9D0257000A582D /* Products */,
@@ -127,6 +117,16 @@
 				1AD4DDE51B9D0257000A582D /* Info.plist */,
 			);
 			path = MessagesTests;
+			sourceTree = "<group>";
+		};
+		6E5E7C791BA53EE300F02BCE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E5E7C7F1BA53EE300F02BCE /* CoreMessages.framework */,
+				6E5E7C811BA53EE300F02BCE /* CoreMessagesTests.xctest */,
+				6E5E7C831BA53EE300F02BCE /* CoreMessages.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,8 +198,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1A7DD7941BA4D5EA000140AA /* Products */;
-					ProjectRef = 1A7DD7931BA4D5EA000140AA /* CoreMessages.xcodeproj */;
+					ProductGroup = 6E5E7C791BA53EE300F02BCE /* Products */;
+					ProjectRef = 6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -211,25 +211,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1A7DD79A1BA4D5EA000140AA /* CoreMessages.framework */ = {
+		6E5E7C7F1BA53EE300F02BCE /* CoreMessages.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CoreMessages.framework;
-			remoteRef = 1A7DD7991BA4D5EA000140AA /* PBXContainerItemProxy */;
+			remoteRef = 6E5E7C7E1BA53EE300F02BCE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1A7DD79C1BA4D5EA000140AA /* CoreMessagesTests.xctest */ = {
+		6E5E7C811BA53EE300F02BCE /* CoreMessagesTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = CoreMessagesTests.xctest;
-			remoteRef = 1A7DD79B1BA4D5EA000140AA /* PBXContainerItemProxy */;
+			remoteRef = 6E5E7C801BA53EE300F02BCE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1A7DD79E1BA4D5EA000140AA /* CoreMessages.framework */ = {
+		6E5E7C831BA53EE300F02BCE /* CoreMessages.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CoreMessages.framework;
-			remoteRef = 1A7DD79D1BA4D5EA000140AA /* PBXContainerItemProxy */;
+			remoteRef = 6E5E7C821BA53EE300F02BCE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
