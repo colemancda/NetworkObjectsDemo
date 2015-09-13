@@ -22,6 +22,34 @@
 			remoteGlobalIDString = 1AD4DDA71B9D0235000A582D;
 			remoteInfo = CoreMessagesServer;
 		};
+		6E26DFF21BA5426F00799B94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD841B9D01FC000A582D;
+			remoteInfo = "CoreMessages OS X";
+		};
+		6E26DFF41BA5426F00799B94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AD4DD8E1B9D01FD000A582D;
+			remoteInfo = CoreMessagesTests;
+		};
+		6E26DFF61BA5426F00799B94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7DD7621BA4B838000140AA;
+			remoteInfo = "CoreMessages iOS";
+		};
+		6E26DFF81BA5427800799B94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AD4DD831B9D01FC000A582D;
+			remoteInfo = "CoreMessages OS X";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +61,7 @@
 		1AD4DDB21B9D0235000A582D /* CoreMessagesServerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreMessagesServerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DDB71B9D0235000A582D /* CoreMessagesServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMessagesServerTests.swift; sourceTree = "<group>"; };
 		1AD4DDB91B9D0235000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +86,7 @@
 		1AD4DD9E1B9D0235000A582D = {
 			isa = PBXGroup;
 			children = (
+				6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */,
 				1AD4DDAA1B9D0235000A582D /* CoreMessagesServer */,
 				1AD4DDB61B9D0235000A582D /* CoreMessagesServerTests */,
 				1AD4DDA91B9D0235000A582D /* Products */,
@@ -92,6 +122,16 @@
 			path = CoreMessagesServerTests;
 			sourceTree = "<group>";
 		};
+		6E26DFED1BA5426F00799B94 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E26DFF31BA5426F00799B94 /* CoreMessages.framework */,
+				6E26DFF51BA5426F00799B94 /* CoreMessagesTests.xctest */,
+				6E26DFF71BA5426F00799B94 /* CoreMessages.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -118,6 +158,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E26DFF91BA5427800799B94 /* PBXTargetDependency */,
 			);
 			name = CoreMessagesServer;
 			productName = CoreMessagesServer;
@@ -170,6 +211,12 @@
 			mainGroup = 1AD4DD9E1B9D0235000A582D;
 			productRefGroup = 1AD4DDA91B9D0235000A582D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6E26DFED1BA5426F00799B94 /* Products */;
+					ProjectRef = 6E26DFEC1BA5426F00799B94 /* CoreMessages.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1AD4DDA71B9D0235000A582D /* CoreMessagesServer */,
@@ -177,6 +224,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6E26DFF31BA5426F00799B94 /* CoreMessages.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CoreMessages.framework;
+			remoteRef = 6E26DFF21BA5426F00799B94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6E26DFF51BA5426F00799B94 /* CoreMessagesTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CoreMessagesTests.xctest;
+			remoteRef = 6E26DFF41BA5426F00799B94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6E26DFF71BA5426F00799B94 /* CoreMessages.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CoreMessages.framework;
+			remoteRef = 6E26DFF61BA5426F00799B94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1AD4DDA61B9D0235000A582D /* Resources */ = {
@@ -220,6 +291,11 @@
 			isa = PBXTargetDependency;
 			target = 1AD4DDA71B9D0235000A582D /* CoreMessagesServer */;
 			targetProxy = 1AD4DDB41B9D0235000A582D /* PBXContainerItemProxy */;
+		};
+		6E26DFF91BA5427800799B94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CoreMessages OS X";
+			targetProxy = 6E26DFF81BA5427800799B94 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

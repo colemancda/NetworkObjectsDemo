@@ -19,6 +19,7 @@
 		1A7DD7E41BA4EBF2000140AA /* SwiftWebSocket.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7DD7DB1BA4EBF2000140AA /* SwiftWebSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1AD4DDFB1B9D02E6000A582D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDFA1B9D02E6000A582D /* main.m */; };
 		1AD4DE0E1B9D038F000A582D /* MessagesServerDaemon in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1AD4DDF71B9D02E6000A582D /* MessagesServerDaemon */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		6E26E0061BA5429B00799B94 /* CoreMessages.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E26E0011BA5429300799B94 /* CoreMessages.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,23 +51,23 @@
 			remoteGlobalIDString = 1AD4DDF61B9D02E6000A582D;
 			remoteInfo = MessagesServerDaemon;
 		};
-		6E5E7C711BA53D9000F02BCE /* PBXContainerItemProxy */ = {
+		6E26E0001BA5429300799B94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */;
+			containerPortal = 6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1AD4DD841B9D01FC000A582D;
 			remoteInfo = "CoreMessages OS X";
 		};
-		6E5E7C731BA53D9000F02BCE /* PBXContainerItemProxy */ = {
+		6E26E0021BA5429300799B94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */;
+			containerPortal = 6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1AD4DD8E1B9D01FD000A582D;
 			remoteInfo = CoreMessagesTests;
 		};
-		6E5E7C751BA53D9000F02BCE /* PBXContainerItemProxy */ = {
+		6E26E0041BA5429300799B94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */;
+			containerPortal = 6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1A7DD7621BA4B838000140AA;
 			remoteInfo = "CoreMessages iOS";
@@ -100,6 +101,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6E26E0061BA5429B00799B94 /* CoreMessages.framework in Copy Frameworks */,
 				1A7DD7DC1BA4EBF2000140AA /* b64.framework in Copy Frameworks */,
 				1A7DD7DD1BA4EBF2000140AA /* CocoaAsyncSocket.framework in Copy Frameworks */,
 				1A7DD7DE1BA4EBF2000140AA /* CocoaHTTPServer.framework in Copy Frameworks */,
@@ -117,7 +119,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
 		1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessagesServer.xcodeproj; path = ../CoreMessagesServer/CoreMessagesServer.xcodeproj; sourceTree = "<group>"; };
 		1A7DD7D31BA4EBF1000140AA /* b64.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = b64.framework; path = ../Carthage/Build/Mac/b64.framework; sourceTree = "<group>"; };
 		1A7DD7D41BA4EBF1000140AA /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = ../Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 		1AD4DDFA1B9D02E6000A582D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1AD4DE051B9D032F000A582D /* MessagesServerDaemon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesServerDaemon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DE071B9D032F000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = /Users/Coleman/Developer/NetworkObjectsDemo/Messages/../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,16 +166,16 @@
 		1A7DD7E51BA4EBFE000140AA /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */,
 				1A7DD7C51BA4E7B2000140AA /* CoreMessagesServer.xcodeproj */,
-				1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */,
 				1A7DD7D31BA4EBF1000140AA /* b64.framework */,
+				1A7DD7D71BA4EBF1000140AA /* JSON.framework */,
+				1A7DD7DA1BA4EBF2000140AA /* SwiftFoundation.framework */,
+				1A7DD7D61BA4EBF1000140AA /* CoreModel.framework */,
+				1A7DD7D81BA4EBF2000140AA /* NetworkObjects.framework */,
 				1A7DD7D41BA4EBF1000140AA /* CocoaAsyncSocket.framework */,
 				1A7DD7D51BA4EBF1000140AA /* CocoaHTTPServer.framework */,
-				1A7DD7D61BA4EBF1000140AA /* CoreModel.framework */,
-				1A7DD7D71BA4EBF1000140AA /* JSON.framework */,
-				1A7DD7D81BA4EBF2000140AA /* NetworkObjects.framework */,
 				1A7DD7D91BA4EBF2000140AA /* RoutingHTTPServer.framework */,
-				1A7DD7DA1BA4EBF2000140AA /* SwiftFoundation.framework */,
 				1A7DD7DB1BA4EBF2000140AA /* SwiftWebSocket.framework */,
 			);
 			name = Dependencies;
@@ -214,12 +216,12 @@
 			path = MessagesServerDaemonBundle;
 			sourceTree = "<group>";
 		};
-		6E5E7C6C1BA53D9000F02BCE /* Products */ = {
+		6E26DFFB1BA5429300799B94 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E5E7C721BA53D9000F02BCE /* CoreMessages.framework */,
-				6E5E7C741BA53D9000F02BCE /* CoreMessagesTests.xctest */,
-				6E5E7C761BA53D9000F02BCE /* CoreMessages.framework */,
+				6E26E0011BA5429300799B94 /* CoreMessages.framework */,
+				6E26E0031BA5429300799B94 /* CoreMessagesTests.xctest */,
+				6E26E0051BA5429300799B94 /* CoreMessages.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -294,8 +296,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6E5E7C6C1BA53D9000F02BCE /* Products */;
-					ProjectRef = 1A7DD7641BA4BC1E000140AA /* CoreMessages.xcodeproj */;
+					ProductGroup = 6E26DFFB1BA5429300799B94 /* Products */;
+					ProjectRef = 6E26DFFA1BA5429300799B94 /* CoreMessages.xcodeproj */;
 				},
 				{
 					ProductGroup = 1A7DD7C61BA4E7B2000140AA /* Products */;
@@ -325,25 +327,25 @@
 			remoteRef = 1A7DD7CC1BA4E7B2000140AA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6E5E7C721BA53D9000F02BCE /* CoreMessages.framework */ = {
+		6E26E0011BA5429300799B94 /* CoreMessages.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CoreMessages.framework;
-			remoteRef = 6E5E7C711BA53D9000F02BCE /* PBXContainerItemProxy */;
+			remoteRef = 6E26E0001BA5429300799B94 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6E5E7C741BA53D9000F02BCE /* CoreMessagesTests.xctest */ = {
+		6E26E0031BA5429300799B94 /* CoreMessagesTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = CoreMessagesTests.xctest;
-			remoteRef = 6E5E7C731BA53D9000F02BCE /* PBXContainerItemProxy */;
+			remoteRef = 6E26E0021BA5429300799B94 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6E5E7C761BA53D9000F02BCE /* CoreMessages.framework */ = {
+		6E26E0051BA5429300799B94 /* CoreMessages.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CoreMessages.framework;
-			remoteRef = 6E5E7C751BA53D9000F02BCE /* PBXContainerItemProxy */;
+			remoteRef = 6E26E0041BA5429300799B94 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
