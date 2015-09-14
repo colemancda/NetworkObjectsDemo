@@ -30,7 +30,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
     public let localSortDescriptors: [NSSortDescriptor]?
     
     /// The timeout for the requests
-    public var timeout: TimeInterval = 30
+    public var requestTimeout: TimeInterval = 30
     
     /// The search controller's delegate.
     public weak var delegate: SearchResultsControllerDelegate?
@@ -119,11 +119,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
             var managedObjects = [NSManagedObject]()
             
             do {
-                results = try controller.client.search(controller.fetchRequest)
-                
-                let resourceIDs = results.map({ (resource) -> String in resource.resourceID })
-                
-                try controller.store.cacheResponse(Response.Search(resourceIDs), forRequest: Request.Search(controller.fetchRequest))
+                results = try controller.client.search(controller.fetchRequest, timeout: controller.requestTimeout)
                 
                 for resource in results {
                     
@@ -152,6 +148,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
     }
     
     /// Loads caches objects. Does not fetch from server.
+    /// 
     /// Call this to recieve delegate notificationes about changes in the cache.
     public func loadCache() throws {
         
@@ -242,7 +239,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
 
 // MARK: - Protocol
 
-/* Delegate methods for the search controller. */
+/// Delegate methods for the search controller.
 public protocol SearchResultsControllerDelegate: class {
     
     /// Informs the delegate that a search request has completed with the specified error (if any).

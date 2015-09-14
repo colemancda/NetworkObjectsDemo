@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftFoundation
 import UIKit
 import CoreData
 import CoreModel
@@ -22,9 +23,12 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     public var searchResultsController: SearchResultsController!
     
     /// Date the data was last pulled from the server.
-    public private(set) var datedRefreshed: NSDate?
+    public private(set) var dateRefreshed: Date?
     
     // MARK: - Private Properties
+    
+    /// Resource IDs mapped to the dates they were last fetched from the server.
+    private var datesCached = [String: Date]()
     
     private var previousSearchResults: [NSManagedObject]?
     
@@ -61,7 +65,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Methods
     
-    /** Fetches the managed object at the specified index path from the data source. */
+    /// Fetches the managed object at the specified index path from the data source.
     public func objectAtIndexPath(indexPath: NSIndexPath) -> NSManagedObject {
         
         assert(indexPath.section == 0, "Only single section supported")
@@ -69,7 +73,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         return self.searchResultsController!.objectAtIndex(UInt(indexPath.row))
     }
     
-    /** Subclasses should overrride this to provide custom cells. */
+    /// Subclasses should overrride this to provide custom cells.
     public func dequeueReusableCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         
         let CellIdentifier = NSStringFromClass(UITableViewCell)
@@ -79,12 +83,12 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         return cell
     }
     
-    /** Subclasses should override this to configure custom cells. */
-    public func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: NSError? = nil) {
+    /// Subclasses should override this to configure custom cells.
+    public func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil) {
         
         if error != nil {
             
-            // TODO: Configure cell for error
+            cell.textLabel!.text = "Error: \(error!)"
             
             return
         }
@@ -93,7 +97,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         let managedObject = self.objectAtIndexPath(indexPath)
         
         // not cached
-        if self.datedRefreshed == nil {
+        if self.dateRefreshed == nil {
             
             // configure empty cell...
             
@@ -118,7 +122,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     @IBAction public func refresh(sender: AnyObject) {
         
-        self.datedRefreshed = NSDate()
+        self.dateRefreshed = Date()
         
         self.previousSearchResults = self.searchResultsController!.searchResults
         
@@ -137,7 +141,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         
         let resource = Resource(entityName, resourceID)
         
-        let timeout = self.searchResultsController.timeout
+        let timeout = self.searchResultsController.requestTimeout
         
         self.requestQueue.addOperationWithBlock { () -> Void in
             
@@ -153,11 +157,6 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
                     })
                 })
             }
-            
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                
-                self.searchResultsController.store.delete(resource)
-            })
         }
     }
     
@@ -181,32 +180,54 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         self.configureCell(cell, atIndexPath: indexPath)
         
         // fetch from server... (loading table view after -refresh:)
-        
-        if self.datedRefreshed != nil {
+        if let dateRefreshed = self.dateRefreshed {
             
             // get model object
             let managedObject = self.objectAtIndexPath(indexPath)
             
+            let resourceIDAttributeName = self.searchResultsController.store.resourceIDAttributeName
+            
+            let resourceID = managedObject.valueForKey(resourceIDAttributeName) as! String
+            
             // get date cached
-            let dateCached = managedObject.valueForKey(self.store.dateCachedAttributeName!) as? NSDate
+            let dateCached = self.datesCached[resourceID]
             
             // fetch if older than refresh date or not fetched yet
-            if dateCached == nil || dateCached?.compare(self.datedRefreshed!) == NSComparisonResult.OrderedAscending {
+            if dateCached == nil || dateCached < dateRefreshed {
                 
-                self.store.fetchEntity(managedObject.entity.name!, resourceID: managedObject.valueForKey(self.store.resourceIDAttributeName) as! UInt, completionBlock: { (error, managedObject) -> Void in
+                self.requestQueue.addOperationWithBlock({ [weak self] () -> Void in
                     
-                    // configure error cell
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    guard let controller = self else { return }
+                    
+                    let timeout = controller.searchResultsController.requestTimeout
+                    
+                    let resource = Resource(managedObject.entity.name!, resourceID)
+                    
+                    do { try controller.searchResultsController.client.get(resource, timeout: timeout) }
+                    
+                    catch {
                         
-                        if error != nil {
+                        // configure cell for error
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ [weak self] () -> Void in
                             
-                            // get cell for error request (may have changed)
+                            guard let controller = self else { return }
                             
-                            // TODO: handle error (show error text in cell)
-                        }
-                    })
+                            let newIndexPath = tableView.indexPathForCell(cell)
+                            
+                            guard newIndexPath == indexPath else { return }
+                            
+                            controller.configureCell(cell, atIndexPath: indexPath, withError: error)
+                        })
+                    }
                     
-                    // fetched results controller should update cell
+                    // fetched results controller should update cell...
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ [weak self] () -> Void in
+                        
+                        guard let controller = self else { return }
+                        
+                        controller.datesCached[resourceID] = Date()
+                    })
                 })
             }
         }
@@ -249,7 +270,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
                 
                 self.refreshControl?.endRefreshing()
                 
-                self.showErrorAlert(error!.localizedDescription, retryHandler: { () -> Void in
+                self.showErrorAlert("\(error)", retryHandler: { () -> Void in
                     
                     self.refresh(self)
                 })

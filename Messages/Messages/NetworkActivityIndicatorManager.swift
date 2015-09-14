@@ -82,7 +82,7 @@ final public class NetworkActivityIndicatorManager {
             }
         }
         
-        self.URLSession.getTasksWithCompletionHandler { (dataTasks: [NSURLSessionDataTask]!, uploadTasks: [NSURLSessionUploadTask]!, downloadTasks: [NSURLSessionDownloadTask]!) -> Void in
+        self.URLSession.getTasksWithCompletionHandler { (dataTasks: [NSURLSessionDataTask], uploadTasks: [NSURLSessionUploadTask], downloadTasks: [NSURLSessionDownloadTask]) -> Void in
             
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 
