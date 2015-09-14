@@ -26,7 +26,7 @@ import CoreData
     }
 }
 
-public class ServerManager: ServerDataSource {
+public class ServerManager: ServerDataSource, ServerDelegate {
     
     public static let sharedManager = ServerManager()
     
@@ -158,5 +158,27 @@ public class ServerManager: ServerDataSource {
         }
         
         return store
+    }
+    
+    // MARK: - ServerDelegate
+    
+    public func server<T : ServerType>(server: T, didCreateResource resource: Resource, initialValues: ValuesObject?, context: Server.RequestContext) {
+        
+        switch resource.entityName {
+            
+        case Message.EntityName:
+            
+            // set creation date on server
+            
+            let date = Date()
+            
+            let value = Value.Attribute(.Date(date))
+            
+            let dateKey = Message.Attribute.Date.rawValue
+            
+            try! context.store.edit(resource, changes: [dateKey: value])
+            
+        default: break
+        }
     }
 }

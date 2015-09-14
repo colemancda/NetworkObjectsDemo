@@ -21,3 +21,5 @@ public func ManagedObjectModel() -> NSManagedObjectModel {
 public let BundleIdentifier = "com.colemancda.CoreMessages"
 
 public let ResourceIDAttributeName = "id"
+
+public let DateCachedAttributeName = "dateCached"
