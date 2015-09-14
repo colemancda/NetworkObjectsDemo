@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8193.2" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
-    <entity name="Message" syncable="YES">
-        <attribute name="date" attributeType="Date" syncable="YES"/>
-        <attribute name="text" attributeType="String" syncable="YES"/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="15A282b" minimumToolsVersion="Xcode 7.0">
+    <entity name="Message" representedClassName="CoreMessages.Message" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="mogenerator.readonly" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="text" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mogenerator.readonly" value="YES"/>
+            </userInfo>
+        </attribute>
     </entity>
     <elements>
         <element name="Message" positionX="-63" positionY="-18" width="128" height="75"/>

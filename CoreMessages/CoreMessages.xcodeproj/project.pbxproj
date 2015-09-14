@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6E783E861BA760750086115D /* MOGenerator */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E783E891BA760760086115D /* Build configuration list for PBXAggregateTarget "MOGenerator" */;
+			buildPhases = (
+				6E783E8A1BA7607B0086115D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = MOGenerator;
+			productName = MOGenerator;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1A7DD7521BA4AAC5000140AA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7501BA4AAC5000140AA /* Model.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		1A7DD7541BA4B15D000140AA /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7DD7531BA4B15D000140AA /* Define.swift */; settings = {ASSET_TAGS = (); }; };
@@ -15,6 +29,10 @@
 		1AD4DD881B9D01FC000A582D /* CoreMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD4DD871B9D01FC000A582D /* CoreMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AD4DD8F1B9D01FD000A582D /* CoreMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD4DD841B9D01FC000A582D /* CoreMessages.framework */; settings = {ASSET_TAGS = (); }; };
 		1AD4DD941B9D01FD000A582D /* CoreMessagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DD931B9D01FD000A582D /* CoreMessagesTests.swift */; };
+		6E783E8D1BA762E50086115D /* _CoreMessages.Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E783E8B1BA762E50086115D /* _CoreMessages.Message.swift */; settings = {ASSET_TAGS = (); }; };
+		6E783E8E1BA762E50086115D /* _CoreMessages.Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E783E8B1BA762E50086115D /* _CoreMessages.Message.swift */; settings = {ASSET_TAGS = (); }; };
+		6E783E8F1BA762E50086115D /* CoreMessages.Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E783E8C1BA762E50086115D /* CoreMessages.Message.swift */; settings = {ASSET_TAGS = (); }; };
+		6E783E901BA762E50086115D /* CoreMessages.Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E783E8C1BA762E50086115D /* CoreMessages.Message.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +55,8 @@
 		1AD4DD8E1B9D01FD000A582D /* CoreMessagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreMessagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD4DD931B9D01FD000A582D /* CoreMessagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMessagesTests.swift; sourceTree = "<group>"; };
 		1AD4DD951B9D01FD000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E783E8B1BA762E50086115D /* _CoreMessages.Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _CoreMessages.Message.swift; sourceTree = "<group>"; };
+		6E783E8C1BA762E50086115D /* CoreMessages.Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreMessages.Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +109,7 @@
 			children = (
 				1AD4DD871B9D01FC000A582D /* CoreMessages.h */,
 				1A7DD7531BA4B15D000140AA /* Define.swift */,
-				1A7DD7501BA4AAC5000140AA /* Model.xcdatamodeld */,
+				6E783E911BA763E90086115D /* CoreData */,
 				1AD4DD891B9D01FC000A582D /* Info.plist */,
 			);
 			path = CoreMessages;
@@ -102,6 +122,24 @@
 				1AD4DD951B9D01FD000A582D /* Info.plist */,
 			);
 			path = CoreMessagesTests;
+			sourceTree = "<group>";
+		};
+		6E783E911BA763E90086115D /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1A7DD7501BA4AAC5000140AA /* Model.xcdatamodeld */,
+				6E783E921BA763F10086115D /* Private */,
+				6E783E8C1BA762E50086115D /* CoreMessages.Message.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		6E783E921BA763F10086115D /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				6E783E8B1BA762E50086115D /* _CoreMessages.Message.swift */,
+			);
+			name = Private;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +234,9 @@
 					1AD4DD8D1B9D01FD000A582D = {
 						CreatedOnToolsVersion = 7.0;
 					};
+					6E783E861BA760750086115D = {
+						CreatedOnToolsVersion = 7.0;
+					};
 				};
 			};
 			buildConfigurationList = 1AD4DD7E1B9D01FC000A582D /* Build configuration list for PBXProject "CoreMessages" */;
@@ -213,6 +254,7 @@
 				1AD4DD831B9D01FC000A582D /* CoreMessages OS X */,
 				1AD4DD8D1B9D01FD000A582D /* CoreMessagesTests */,
 				1A7DD7571BA4B838000140AA /* CoreMessages iOS */,
+				6E783E861BA760750086115D /* MOGenerator */,
 			);
 		};
 /* End PBXProject section */
@@ -241,12 +283,30 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6E783E8A1BA7607B0086115D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mogenerator --v2 --swift --model \"/$PROJECT_DIR/$PROJECT_NAME/Model.xcdatamodeld\" --output-dir \"/$PROJECT_DIR/$PROJECT_NAME\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1A7DD7581BA4B838000140AA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1A7DD7591BA4B838000140AA /* Define.swift in Sources */,
+				6E783E901BA762E50086115D /* CoreMessages.Message.swift in Sources */,
+				6E783E8E1BA762E50086115D /* _CoreMessages.Message.swift in Sources */,
 				1A7DD75A1BA4B838000140AA /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,6 +316,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7DD7541BA4B15D000140AA /* Define.swift in Sources */,
+				6E783E8F1BA762E50086115D /* CoreMessages.Message.swift in Sources */,
+				6E783E8D1BA762E50086115D /* _CoreMessages.Message.swift in Sources */,
 				1A7DD7521BA4AAC5000140AA /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +551,20 @@
 			};
 			name = Release;
 		};
+		6E783E871BA760760086115D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E783E881BA760760086115D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -527,6 +603,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6E783E891BA760760086115D /* Build configuration list for PBXAggregateTarget "MOGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E783E871BA760760086115D /* Debug */,
+				6E783E881BA760760086115D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

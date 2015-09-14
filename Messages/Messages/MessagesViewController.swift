@@ -58,7 +58,6 @@ class MessagesViewController: FetchedResultsViewController {
     
     // MARK: - Methods
     
-    /// Subclasses should overrride this to provide custom cells.
     override func dequeueReusableCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath)
@@ -66,7 +65,6 @@ class MessagesViewController: FetchedResultsViewController {
         return cell
     }
     
-    /// Subclasses should override this to configure custom cells.
     override func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil) {
         
         if error != nil {
