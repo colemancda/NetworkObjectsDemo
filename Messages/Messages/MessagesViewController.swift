@@ -10,6 +10,7 @@ import UIKit
 import SwiftFoundation
 import NetworkObjects
 import CoreModel
+import CoreData
 import CoreMessages
 
 class MessagesViewController: FetchedResultsViewController {
@@ -26,8 +27,33 @@ class MessagesViewController: FetchedResultsViewController {
             
             let client = Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
             
+            managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
             
+            let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+            
+            context.undoManager = nil
+            
+            context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+            
+            try! context.persistentStoreCoordinator!.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
+            
+            let store = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
+            
+            let sort = CoreModel.SortDescriptor(propertyName: "date", ascending: false)
+            
+            let fetchRequest = FetchRequest(entityName: "Message", sortDescriptors: [sort])
+            
+            client.cacheStores = [store]
+            
+            self.searchResultsController = SearchResultsController(fetchRequest: fetchRequest, client: client, store: store)
         }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func create(sender: AnyObject) {
+        
+        
     }
     
     // MARK: - Methods
@@ -73,11 +99,19 @@ class MessagesViewController: FetchedResultsViewController {
         }
         
         // configure cell...
-        
         cell.userInteractionEnabled = true
         
         // Entity name + resource ID
         cell.textLabel!.text = "\(managedObject.entity)" + "\(managedObject.valueForKey(self.searchResultsController.store.resourceIDAttributeName))"
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        // show edit panel
     }
 }
 

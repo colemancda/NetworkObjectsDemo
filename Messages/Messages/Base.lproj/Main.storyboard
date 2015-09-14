@@ -107,7 +107,13 @@
                             <outlet property="delegate" destination="gYP-Ar-gYd" id="LoT-OJ-vex"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Messages" id="azC-Qo-hQl"/>
+                    <navigationItem key="navigationItem" title="Messages" id="azC-Qo-hQl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="8cs-I5-Nmy">
+                            <connections>
+                                <action selector="create:" destination="gYP-Ar-gYd" id="q3J-hq-reK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yy0-LC-oda">
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
