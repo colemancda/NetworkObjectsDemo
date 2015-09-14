@@ -20,15 +20,15 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Properties
     
-    public var searchResultsController: SearchResultsController!
+    final public var searchResultsController: SearchResultsController!
     
-    /// Date the data was last pulled from the server.
-    public private(set) var dateRefreshed: Date?
-    
-    // MARK: - Private Properties
+    /// Date the last search request was made.
+    final public private(set) var dateRefreshed: Date?
     
     /// Resource IDs mapped to the dates they were last fetched from the server.
-    private var datesCached = [String: Date]()
+    final public private(set) var datesCached = [String: Date]()
+    
+    // MARK: - Private Properties
     
     private var previousSearchResults: [NSManagedObject]?
     
@@ -66,7 +66,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     // MARK: - Methods
     
     /// Fetches the managed object at the specified index path from the data source.
-    public func objectAtIndexPath(indexPath: NSIndexPath) -> NSManagedObject {
+    final public func objectAtIndexPath(indexPath: NSIndexPath) -> NSManagedObject {
         
         assert(indexPath.section == 0, "Only single section supported")
         
@@ -88,7 +88,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         
         if error != nil {
             
-            cell.textLabel!.text = "Error: \(error!)"
+            cell.textLabel!.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
             
             return
         }
@@ -120,7 +120,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Actions
     
-    @IBAction public func refresh(sender: AnyObject) {
+    @IBAction final public func refresh(sender: AnyObject) {
         
         self.dateRefreshed = Date()
         
@@ -162,17 +162,17 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - UITableViewDataSource
     
-    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    final public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         return 1
     }
     
-    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    final public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return self.searchResultsController?.searchResults.count ?? 0
     }
     
-    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    final public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = self.dequeueReusableCellForIndexPath(indexPath) as UITableViewCell
         
@@ -261,7 +261,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - SearchResultsControllerDelegate
     
-    public func controller(controller: SearchResultsController, didPerformSearchWithError error: ErrorType?) {
+    final public func controller(controller: SearchResultsController, didPerformSearchWithError error: ErrorType?) {
         
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             
@@ -331,27 +331,27 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    public func controllerWillChangeContent(controller: SearchResultsController) {
+    final public func controllerWillChangeContent(controller: SearchResultsController) {
         
         self.tableView.beginUpdates()
     }
     
-    public func controllerDidChangeContent(controller: SearchResultsController) {
+    final public func controllerDidChangeContent(controller: SearchResultsController) {
         
         self.tableView.endUpdates()
     }
     
-    public func controller(controller: SearchResultsController, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller(controller: SearchResultsController, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    public func controller(controller: SearchResultsController, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller(controller: SearchResultsController, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    public func controller(controller: SearchResultsController, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller(controller: SearchResultsController, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         let indexPath = NSIndexPath(forRow: Int(index), inSection: 0)
         
@@ -361,7 +361,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    public func controller(controller: SearchResultsController, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
+    final public func controller(controller: SearchResultsController, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(newIndex), inSection: 0)], withRowAnimation: .Automatic)
         

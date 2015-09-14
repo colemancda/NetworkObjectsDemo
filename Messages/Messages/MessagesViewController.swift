@@ -12,7 +12,7 @@ import NetworkObjects
 import CoreModel
 import CoreMessages
 
-class MessagesViewController: UITableViewController {
+class MessagesViewController: FetchedResultsViewController {
     
     // MARK: - Properties
     
@@ -24,83 +24,68 @@ class MessagesViewController: UITableViewController {
             
             let model = managedObjectModel.toModel()!
             
-            self.client = Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
+            let client = Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
+            
+            
         }
     }
     
-    private(set) var messages = [Resource]()
+    // MARK: - Methods
     
-    private let requestQueue = NSOperationQueue()
-    
-    private var client: NetworkObjects.Client.HTTP!
-    
-    // MARK: - Initialization
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    /// Subclasses should overrride this to provide custom cells.
+    override func dequeueReusableCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         
-        self.refresh(self)
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath)
+        
+        return cell
     }
     
-    // MARK: - Actions
-    
-    @IBAction func refresh(sender: AnyObject) {
+    /// Subclasses should override this to configure custom cells.
+    override func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil) {
         
-        let fetchRequest = FetchRequest(entityName: "Message", sortDescriptors: [])
-        
-        self.requestQueue.addOperationWithBlock { () -> Void in
+        if error != nil {
             
-            var results: [Resource]!
+            cell.textLabel!.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
             
-            do { results = try self.client.search(fetchRequest) }
-            
-            catch {
-                
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    
-                    // show error
-                })
-                
-                return
-            }
-            
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                
-                self.messages = results
-                
-                self.tableView.reloadData()
-            })
+            return
         }
-    }
-    
-    // MARK: - UITableViewDataSource
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // get model object
+        let managedObject = self.objectAtIndexPath(indexPath)
         
-        return self.messages.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let resourceIDAttributeName = self.searchResultsController.store.resourceIDAttributeName
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell", forIndexPath: indexPath) as! MessageCell
+        let resourceID = managedObject.valueForKey(resourceIDAttributeName) as! String
         
-        let message = self.messages[indexPath.row]
+        // get date cached
+        let dateCached = self.datesCached[resourceID]
         
-        // fetch values from server
+        // configure empty cell...
+        if dateCached == nil {
+            
+            cell.textLabel?.text = NSLocalizedString("Loading...", comment: "Loading...")
+            
+            cell.detailTextLabel?.text = ""
+            
+            cell.userInteractionEnabled = false
+            
+            return
+        }
         
+        // configure cell...
         
+        cell.userInteractionEnabled = true
+        
+        // Entity name + resource ID
+        cell.textLabel!.text = "\(managedObject.entity)" + "\(managedObject.valueForKey(self.searchResultsController.store.resourceIDAttributeName))"
     }
 }
 
 // MARK: - Supporting Classes
 
 class MessageCell: UITableViewCell {
+    
+    static var Identifier: String { return "MessageCell" }
     
     @IBOutlet weak var messageTextLabel: UILabel!
     
