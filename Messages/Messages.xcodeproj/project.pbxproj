@@ -14,6 +14,10 @@
 		1AD4DDD91B9D0257000A582D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD71B9D0257000A582D /* LaunchScreen.storyboard */; };
 		1AD4DDE41B9D0257000A582D /* MessagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDE31B9D0257000A582D /* MessagesTests.swift */; };
 		6E26E0081BA543A000799B94 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E0071BA543A000799B94 /* MessagesViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		6E26E00F1BA62AE100799B94 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00B1BA62AE000799B94 /* ErrorAlert.swift */; settings = {ASSET_TAGS = (); }; };
+		6E26E0101BA62AE100799B94 /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00C1BA62AE100799B94 /* NetworkActivityIndicatorManager.swift */; settings = {ASSET_TAGS = (); }; };
+		6E26E0111BA62AE100799B94 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00D1BA62AE100799B94 /* SearchResultsController.swift */; settings = {ASSET_TAGS = (); }; };
+		6E26E0121BA62AE100799B94 /* FetchedResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00E1BA62AE100799B94 /* FetchedResultsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +27,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1AD4DDCA1B9D0257000A582D;
 			remoteInfo = Messages;
+		};
+		6E26E0091BA563D600799B94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7DD7571BA4B838000140AA;
+			remoteInfo = "CoreMessages iOS";
 		};
 		6E5E7C7E1BA53EE300F02BCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +70,10 @@
 		1AD4DDE31B9D0257000A582D /* MessagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTests.swift; sourceTree = "<group>"; };
 		1AD4DDE51B9D0257000A582D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E26E0071BA543A000799B94 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		6E26E00B1BA62AE000799B94 /* ErrorAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		6E26E00C1BA62AE100799B94 /* NetworkActivityIndicatorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicatorManager.swift; sourceTree = "<group>"; };
+		6E26E00D1BA62AE100799B94 /* SearchResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
+		6E26E00E1BA62AE100799B94 /* FetchedResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsViewController.swift; sourceTree = "<group>"; };
 		6E5E7C781BA53EE300F02BCE /* CoreMessages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreMessages.xcodeproj; path = ../CoreMessages/CoreMessages.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +120,10 @@
 				1AD4DDCE1B9D0257000A582D /* AppDelegate.swift */,
 				1AD4DDD01B9D0257000A582D /* LoginViewController.swift */,
 				6E26E0071BA543A000799B94 /* MessagesViewController.swift */,
+				6E26E00B1BA62AE000799B94 /* ErrorAlert.swift */,
+				6E26E00C1BA62AE100799B94 /* NetworkActivityIndicatorManager.swift */,
+				6E26E00D1BA62AE100799B94 /* SearchResultsController.swift */,
+				6E26E00E1BA62AE100799B94 /* FetchedResultsViewController.swift */,
 				1AD4DDD21B9D0257000A582D /* Main.storyboard */,
 				1AD4DDD51B9D0257000A582D /* Assets.xcassets */,
 				1AD4DDD71B9D0257000A582D /* LaunchScreen.storyboard */,
@@ -146,6 +165,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E26E00A1BA563D600799B94 /* PBXTargetDependency */,
 			);
 			name = Messages;
 			productName = Messages;
@@ -263,8 +283,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E26E0081BA543A000799B94 /* MessagesViewController.swift in Sources */,
+				6E26E00F1BA62AE100799B94 /* ErrorAlert.swift in Sources */,
+				6E26E0121BA62AE100799B94 /* FetchedResultsViewController.swift in Sources */,
 				1AD4DDD11B9D0257000A582D /* LoginViewController.swift in Sources */,
 				1AD4DDCF1B9D0257000A582D /* AppDelegate.swift in Sources */,
+				6E26E0111BA62AE100799B94 /* SearchResultsController.swift in Sources */,
+				6E26E0101BA62AE100799B94 /* NetworkActivityIndicatorManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +307,11 @@
 			isa = PBXTargetDependency;
 			target = 1AD4DDCA1B9D0257000A582D /* Messages */;
 			targetProxy = 1AD4DDE01B9D0257000A582D /* PBXContainerItemProxy */;
+		};
+		6E26E00A1BA563D600799B94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CoreMessages iOS";
+			targetProxy = 6E26E0091BA563D600799B94 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

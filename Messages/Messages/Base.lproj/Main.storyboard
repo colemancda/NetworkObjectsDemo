@@ -44,8 +44,7 @@
                                 <rect key="frame" x="281" y="323" width="38" height="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
-                                    <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8TU-58-zID"/>
-                                    <segue destination="gYP-Ar-gYd" kind="show" id="tXo-41-E6O"/>
+                                    <segue destination="gYP-Ar-gYd" kind="show" identifier="Login" id="tXo-41-E6O"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -72,7 +71,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="8va-Qu-0y6">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" rowHeight="70" id="8va-Qu-0y6" customClass="MessageCell" customModule="Messages" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8va-Qu-0y6" id="1GP-k9-qPw">
@@ -109,6 +108,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Messages" id="azC-Qo-hQl"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yy0-LC-oda">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="gYP-Ar-gYd" eventType="valueChanged" id="Hbb-01-Ph1"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcI-g2-XAf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

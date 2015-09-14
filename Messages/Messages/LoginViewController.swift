@@ -23,11 +23,20 @@ class LoginViewController: UIViewController {
         
     }
     
-    // MARK: - Actions
+    // MARK: - Segue
     
-    @IBAction func login(sender: AnyObject) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        
+        switch segue.identifier! {
+            
+        case "Login":
+            
+            let destinationVC = segue.destinationViewController as! MessagesViewController
+            
+            destinationVC.serverURL = self.serverURLTextField.text
+            
+        default: break
+        }
     }
 }
 

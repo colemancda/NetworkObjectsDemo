@@ -13,7 +13,7 @@ import CoreMessages
 import RoutingHTTPServer
 import CoreData
 
-/// Objective-C wrapper
+/// Objective-C wrapper for ```ServerManager```
 @objc public class MessagesServer: NSObject {
     
     public static func start() {
@@ -36,7 +36,7 @@ public class ServerManager: ServerDataSource {
         
         let managedObjectModel = CoreMessages.ManagedObjectModel()
         
-        let model = managedObjectModel.toModel("id")!
+        let model = managedObjectModel.toModel()!
        
         let server = NetworkObjects.Server.HTTP(model: model, dataSource: self)
         
@@ -109,6 +109,11 @@ public class ServerManager: ServerDataSource {
     
     public lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         
+        let managedObjectModel = CoreMessages.ManagedObjectModel()
+        
+        // add resource ID attribute
+        
+        
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: CoreMessages.ManagedObjectModel())
         
         try! persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: ServerSQLiteFileURL, options: nil)
@@ -147,7 +152,10 @@ public class ServerManager: ServerDataSource {
         // setup persistent store coordinator
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         
-        let store = CoreDataStore(managedObjectContext: managedObjectContext, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
+        guard let store = CoreDataStore(model: self.server.model, managedObjectContext: managedObjectContext, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName) else {
+            
+            fatalError("Could not create Store for request: \(request)")
+        }
         
         return store
     }
