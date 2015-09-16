@@ -25,9 +25,11 @@ class MessagesViewController: FetchedResultsViewController {
             
             let model = managedObjectModel.toModel()!
             
-            let client = Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
+            let client = NetworkObjects.Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
             
             managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
+            
+            managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
             
             let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
             
@@ -36,10 +38,6 @@ class MessagesViewController: FetchedResultsViewController {
             context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
             
             try! context.persistentStoreCoordinator!.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-            
-            managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
-            
-            managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
             
             let cacheStore = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
             
@@ -50,6 +48,8 @@ class MessagesViewController: FetchedResultsViewController {
             let store = NetworkObjects.Store(client: client, cacheStore: cacheStore, dateCachedAttributeName: CoreMessages.DateCachedAttributeName)
             
             self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store)
+            
+            self.searchResultsController.delegate = self
         }
     }
     
@@ -57,7 +57,52 @@ class MessagesViewController: FetchedResultsViewController {
     
     @IBAction func create(sender: AnyObject) {
         
+        let alertController = UIAlertController(title: NSLocalizedString("Create", comment: "Create"),
+            message: NSLocalizedString("Enter the text of the message", comment: "Enter the text of the message"),
+            preferredStyle: UIAlertControllerStyle.Alert)
         
+        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+            
+            textField.placeholder = NSLocalizedString("Message Text", comment: "Message Text")
+        }
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Create", comment: "Create"),
+            style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                
+                let textField = alertController.textFields!.first!
+                
+                let text = textField.text!
+                
+                let values = [Message.Attribute.Text.rawValue: Value.Attribute(AttributeValue.String(text))]
+                
+                NSOperationQueue().addOperationWithBlock({ () -> Void in
+                    
+                    do { try self.searchResultsController.store.create(Message.EntityName, initialValues: values) }
+                    
+                    catch {
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            
+                            self.showErrorAlert("\(error)")
+                        })
+                        
+                        return
+                    }
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        
+                        
+                    })
+                })
+        }))
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"),
+            style: UIAlertActionStyle.Destructive, handler: { (action: UIAlertAction) -> Void in
+                
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Methods
@@ -102,7 +147,7 @@ class MessagesViewController: FetchedResultsViewController {
         cell.userInteractionEnabled = true
         
         // Entity name + resource ID
-        cell.textLabel!.text = "\(managedObject.entity)" + "\(managedObject.valueForKey(self.searchResultsController.store.resourceIDAttributeName))"
+        cell.textLabel!.text = "\(managedObject.entity)"
     }
     
     // MARK: - UITableViewDelegate

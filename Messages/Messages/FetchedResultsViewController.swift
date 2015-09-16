@@ -20,7 +20,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Properties
     
-    final public var searchResultsController: SearchResultsController<Client.HTTP>!
+    final public var searchResultsController: SearchResultsController<Client.HTTP, FetchedResultsViewController>!
     
     /// Date the last search request was made.
     final public private(set) var dateRefreshed: Date?
@@ -257,7 +257,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - SearchResultsControllerDelegate
     
-    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didPerformSearchWithError error: ErrorType?) {
+    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didPerformSearchWithError error: ErrorType?) {
         
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             
@@ -327,27 +327,27 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    final public func controllerWillChangeContent<Client: ClientType>(controller: SearchResultsController<Client>) {
+    final public func controllerWillChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>) {
         
         self.tableView.beginUpdates()
     }
     
-    final public func controllerDidChangeContent<Client: ClientType>(controller: SearchResultsController<Client>) {
+    final public func controllerDidChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>) {
         
         self.tableView.endUpdates()
     }
     
-    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         let indexPath = NSIndexPath(forRow: Int(index), inSection: 0)
         
@@ -357,7 +357,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
+    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(newIndex), inSection: 0)], withRowAnimation: .Automatic)
         

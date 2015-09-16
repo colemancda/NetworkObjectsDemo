@@ -63,6 +63,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9GR-n8-5cg"/>
+                    <connections>
+                        <outlet property="serverURLTextField" destination="opz-w0-nrk" id="GBt-Gc-uxG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -133,7 +136,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                         <connections>
-                            <action selector="refresh:" destination="gYP-Ar-gYd" eventType="valueChanged" id="Hbb-01-Ph1"/>
+                            <action selector="refresh:" destination="gYP-Ar-gYd" eventType="valueChanged" id="MBd-76-Llx"/>
                         </connections>
                     </refreshControl>
                 </tableViewController>

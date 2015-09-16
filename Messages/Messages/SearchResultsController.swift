@@ -43,9 +43,9 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
     // MARK: - Private Properties
     
     /// Internal fetched results controller.
-    private let fetchedResultsController: NSFetchedResultsController
+    private let fetchedResultsController: NSFetchedResultsController!
     
-    private let originalFetchRequest: NSFetchRequest
+    private let originalFetchRequest: NSFetchRequest!
     
     private let requestQueue: NSOperationQueue = {
        
@@ -73,7 +73,10 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
         
         catch {
             
+            self.originalFetchRequest = nil
+            self.fetchedResultsController = nil
             
+            throw error
         }
         
         self.originalFetchRequest = searchRequest.copy() as! NSFetchRequest
@@ -134,10 +137,7 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
             
             catch {
                 
-                controller.store.cacheStore.managedObjectContext.performBlockAndWait({ () -> Void in
-                    
-                    controller.delegate?.controller(controller, didPerformSearchWithError: error)
-                })
+                controller.delegate?.controller(controller, didPerformSearchWithError: error)
                 
                 return
             }
@@ -296,13 +296,6 @@ public protocol SearchResultsControllerDelegate: class {
     
     func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didMoveManagedObject managedObject: NSManagedObject, atIndex oldIndex: UInt, toIndex newIndex: UInt)
 }
-
-/*
-public extension SearchResultsControllerDelegate where Delegate: UITableViewController {
-    
-    
-}
-*/
 
 
 
