@@ -203,6 +203,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
                     
                     catch {
                         
+                        /* TODO
                         // configure cell for error
                         NSOperationQueue.mainQueue().addOperationWithBlock({ [weak self] () -> Void in
                             
@@ -214,6 +215,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
                             
                             controller.configureCell(cell, atIndexPath: indexPath, withError: error)
                         })
+                        */
                     }
                     
                     // fetched results controller should update cell...

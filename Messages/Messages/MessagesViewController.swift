@@ -31,6 +31,8 @@ class MessagesViewController: FetchedResultsViewController {
             
             managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
             
+            managedObjectModel.markAllPropertiesAsOptional()
+            
             let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
             
             context.undoManager = nil
