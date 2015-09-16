@@ -19,25 +19,25 @@ public class Message: NSManagedObject {
     
     public static var EntityName: String { return "Message" }
     
-    public var text: String {
+    public var text: String? {
         
-        let key = Attribute.Date.rawValue
+        let key = Attribute.Text.rawValue
         
         self.willAccessValueForKey(key)
-        let value = self.primitiveValueForKey(key) as! String
+        let value = self.primitiveValueForKey(key) as? String
         self.didAccessValueForKey(key)
         
         return value
     }
     
-    public var date: Date {
+    public var date: Date? {
         
-        let key = Attribute.Text.rawValue
+        let key = Attribute.Date.rawValue
         
         self.willAccessValueForKey(key)
-        let value = self.primitiveValueForKey(key) as! NSDate
+        let value = self.primitiveValueForKey(key) as? NSDate
         self.didAccessValueForKey(key)
         
-        return Date(foundation: value)
+        if let dateValue = value { return Date(foundation: dateValue) } else { return nil }
     }
 }

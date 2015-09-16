@@ -38,7 +38,7 @@ public final class ServerManager: ServerDataSource, ServerDelegate {
         
         let model = managedObjectModel.toModel()!
        
-        let server = NetworkObjects.Server.HTTP(model: model, dataSource: self)
+        let server = NetworkObjects.Server.HTTP(model: model, dataSource: self, delegate: self)
         
         return server
     }()
@@ -162,7 +162,7 @@ public final class ServerManager: ServerDataSource, ServerDelegate {
     
     // MARK: - ServerDelegate
     
-    public func server<T : ServerType>(server: T, didCreateResource resource: Resource, initialValues: ValuesObject?, context: Server.RequestContext) {
+    public func server<T : ServerType>(server: T, willCreateResource resource: Resource, var initialValues: ValuesObject, context: Server.RequestContext) -> ValuesObject {
         
         switch resource.entityName {
             
@@ -174,11 +174,16 @@ public final class ServerManager: ServerDataSource, ServerDelegate {
             
             let value = Value.Attribute(.Date(date))
             
-            let dateKey = Message.Attribute.Date.rawValue
-            
-            try! context.store.edit(resource, changes: [dateKey: value])
+            initialValues[Message.Attribute.Date.rawValue] = value
             
         default: break
         }
+        
+        return initialValues
+    }
+    
+    public func server<T : ServerType>(server: T, didEncounterInternalError error: ErrorType, context: Server.RequestContext) {
+        
+        print("Internal Server Error: \(error)")
     }
 }

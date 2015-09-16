@@ -262,14 +262,11 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             
             // show error
-            if error != nil {
+            if let searchError = error {
                 
                 self.refreshControl?.endRefreshing()
                 
-                self.showErrorAlert("\(error)", retryHandler: { () -> Void in
-                    
-                    self.refresh(self)
-                })
+                self.showErrorAlert("\(searchError)", retryHandler: { () in self.refresh(self) })
                 
                 return
             }
