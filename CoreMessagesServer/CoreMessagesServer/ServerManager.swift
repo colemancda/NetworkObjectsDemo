@@ -26,7 +26,7 @@ import CoreData
     }
 }
 
-public class ServerManager: ServerDataSource, ServerDelegate {
+public final class ServerManager: ServerDataSource, ServerDelegate {
     
     public static let sharedManager = ServerManager()
     
@@ -112,9 +112,9 @@ public class ServerManager: ServerDataSource, ServerDelegate {
         let managedObjectModel = CoreMessages.ManagedObjectModel()
         
         // add resource ID attribute
+        managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
         
-        
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: CoreMessages.ManagedObjectModel())
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         
         try! persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: ServerSQLiteFileURL, options: nil)
         
