@@ -37,15 +37,19 @@ class MessagesViewController: FetchedResultsViewController {
             
             try! context.persistentStoreCoordinator!.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
             
-            let store = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
+            managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
             
-            let sort = CoreModel.SortDescriptor(propertyName: "date", ascending: false)
+            managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
             
-            let fetchRequest = FetchRequest(entityName: "Message", sortDescriptors: [sort])
+            let cacheStore = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
             
-            client.cacheStores = [store]
+            let sort = CoreModel.SortDescriptor(propertyName: Message.Attribute.Date.rawValue, ascending: false)
             
-            self.searchResultsController = SearchResultsController(fetchRequest: fetchRequest, client: client, store: store)
+            let fetchRequest = FetchRequest(entityName: Message.EntityName, sortDescriptors: [sort])
+            
+            let store = NetworkObjects.Store(client: client, cacheStore: cacheStore, dateCachedAttributeName: CoreMessages.DateCachedAttributeName)
+            
+            self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store)
         }
     }
     
@@ -77,9 +81,7 @@ class MessagesViewController: FetchedResultsViewController {
         // get model object
         let managedObject = self.objectAtIndexPath(indexPath)
         
-        let resourceIDAttributeName = self.searchResultsController.store.resourceIDAttributeName
-        
-        let resourceID = managedObject.valueForKey(resourceIDAttributeName) as! String
+        let resourceID = managedObject.valueForKey(CoreMessages.ResourceIDAttributeName) as! String
         
         // get date cached
         let dateCached = self.datesCached[resourceID]

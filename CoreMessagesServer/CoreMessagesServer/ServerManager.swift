@@ -142,7 +142,7 @@ public class ServerManager: ServerDataSource, ServerDelegate {
     
     // MARK: - ServerDataSource
     
-    public func server<T : ServerType>(server: T, storeForRequest request: RequestMessage) -> Store {
+    public func server<T : ServerType>(server: T, storeForRequest request: RequestMessage) -> CoreModel.Store {
         
         // create a new managed object context
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)

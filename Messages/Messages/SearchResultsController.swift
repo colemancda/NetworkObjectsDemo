@@ -11,20 +11,22 @@ import SwiftFoundation
 import CoreData
 import CoreModel
 import NetworkObjects
+import UIKit
 
-/// Executes a search request on the server and delegates the results, merges with local cache to the delegate for display in the UI. Does not support sections.
-final public class SearchResultsController: NSObject, NSFetchedResultsControllerDelegate {
+/// Executes a search request on the server and delegates the results, 
+/// merges with local cache to the delegate for display in the UI. 
+///
+/// - Note: Does not support sections.
+///
+final public class SearchResultsController<Client: ClientType, Delegate: SearchResultsControllerDelegate> {
     
     // MARK: - Properties
     
     /// The fetch request this controller will execute.
     public let fetchRequest: CoreModel.FetchRequest
     
-    /// Client that execute the seach request.
-    public let client: NetworkObjects.ClientType
-    
-    /// Store that will cache the seach request.
-    public let store: CoreDataStore
+    /// Client that will execute and cache the seach request.
+    public let store: NetworkObjects.Store<Client, CoreDataStore>
     
     /// Sort descriptors that are additionally applied to the search results.
     public let localSortDescriptors: [NSSortDescriptor]?
@@ -33,7 +35,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
     public var requestTimeout: TimeInterval = 30
     
     /// The search controller's delegate.
-    public weak var delegate: SearchResultsControllerDelegate?
+    public weak var delegate: Delegate?
     
     /// The cached search results.
     public private(set) var searchResults = [NSManagedObject]()
@@ -54,22 +56,24 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
         return queue
     }()
     
+    private lazy var fetchedResultsControllerDelegate: FetchedResultsControllerDelegateWrapper = FetchedResultsControllerDelegateWrapper(delegate: self)
+    
     // MARK: - Initialization
     
-    public init?(fetchRequest: FetchRequest, client: NetworkObjects.ClientType, store: CoreDataStore, localSortDescriptors: [NSSortDescriptor]? = nil, delegate: SearchResultsControllerDelegate? = nil) {
+    public init(fetchRequest: FetchRequest, store: NetworkObjects.Store<Client, CoreDataStore>, localSortDescriptors: [NSSortDescriptor]? = nil, delegate: Delegate? = nil) throws {
         
         self.fetchRequest = fetchRequest
-        self.client = client
         self.store = store
         self.localSortDescriptors = localSortDescriptors
         self.delegate = delegate
         
-        guard let searchRequest = try? NSFetchRequest(fetchRequest: fetchRequest, store: store) else {
+        var searchRequest: NSFetchRequest!
+        
+        do { searchRequest = try NSFetchRequest(fetchRequest: fetchRequest, store: store.cacheStore) }
+        
+        catch {
             
-            self.fetchedResultsController = NSFetchedResultsController()
-            self.originalFetchRequest = NSFetchRequest()
-            super.init()
-            return nil
+            
         }
         
         self.originalFetchRequest = searchRequest.copy() as! NSFetchRequest
@@ -85,21 +89,18 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
         }
         
         // create new fetched results controller
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: searchRequest, managedObjectContext: self.store.cacheStore.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: searchRequest, managedObjectContext: self.store.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        super.init()
-        
-        self.fetchedResultsController.delegate = self
+        self.fetchedResultsController.delegate = self.fetchedResultsControllerDelegate
     }
     
     // MARK: - Methods
     
     /// Fetches search results from server. 
-    /// Must call 'loadCache()' to register for delegate notifications regarding changes to the cache.
+    /// Must call ```loadCache()``` to register for delegate notifications regarding changes to the cache.
     @IBAction public func performSearch(sender: AnyObject?) {
         
-        guard let entities = self.store.managedObjectContext.persistentStoreCoordinator?.managedObjectModel.entitiesByName,
+        guard let entities = self.store.cacheStore.managedObjectContext.persistentStoreCoordinator?.managedObjectModel.entitiesByName,
             let entity: NSEntityDescription = {
                 
                 for (entityName, entity) in entities {
@@ -119,13 +120,13 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
             var managedObjects = [NSManagedObject]()
             
             do {
-                results = try controller.client.search(controller.fetchRequest, timeout: controller.requestTimeout)
+                results = try controller.store.search(controller.fetchRequest)
                 
                 for resource in results {
                     
-                    let objectID = try controller.store.findEntity(entity, withResourceID: resource.resourceID)!
+                    let objectID = try controller.store.cacheStore.findEntity(entity, withResourceID: resource.resourceID)!
                     
-                    let managedObject = controller.store.managedObjectContext.objectWithID(objectID)
+                    let managedObject = controller.store.cacheStore.managedObjectContext.objectWithID(objectID)
                     
                     managedObjects.append(managedObject)
                 }
@@ -133,7 +134,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
             
             catch {
                 
-                controller.store.managedObjectContext.performBlockAndWait({ () -> Void in
+                controller.store.cacheStore.managedObjectContext.performBlockAndWait({ () -> Void in
                     
                     controller.delegate?.controller(controller, didPerformSearchWithError: error)
                 })
@@ -155,26 +156,64 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
         try self.fetchedResultsController.performFetch()
     }
     
-    /** Fetches the managed object at the specified index path from the data source. */
+    /// Fetches the managed object at the specified index path from the data source.
     public func objectAtIndex(index: UInt) -> NSManagedObject {
         
         return self.searchResults[Int(index)]
     }
+}
+
+// MARK: - Private
+
+/// Swift wrapper for ```NSFetchedResultsControllerDelegate```.
+@objc private final class FetchedResultsControllerDelegateWrapper: NSObject, NSFetchedResultsControllerDelegate {
     
-    // MARK: - NSFetchedResultsControllerDelegate
+    private weak var delegate: InternalFetchedResultsControllerDelegate!
     
-    public func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    private init(delegate: InternalFetchedResultsControllerDelegate) {
+        
+        self.delegate = delegate
+    }
+    
+    @objc private func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        
+        self.delegate.controllerWillChangeContent(controller)
+    }
+    
+    @objc private func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        
+        self.delegate.controllerDidChangeContent(controller)
+    }
+    
+    @objc private func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        let managedObject = anObject as! NSManagedObject
+        
+        self.delegate.controller(controller, didChangeObject: managedObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
+    }
+}
+
+private protocol InternalFetchedResultsControllerDelegate: class {
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject managedObject: NSManagedObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?)
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController)
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController)
+}
+
+extension SearchResultsController: InternalFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
         
         self.delegate?.controllerWillChangeContent(self)
     }
     
-    public func controller(controller: NSFetchedResultsController,
-        didChangeObject object: AnyObject,
+    func controller(controller: NSFetchedResultsController,
+        didChangeObject managedObject: NSManagedObject,
         atIndexPath indexPath: NSIndexPath?,
         forChangeType type: NSFetchedResultsChangeType,
         newIndexPath: NSIndexPath?) {
-            
-            let managedObject = object as! NSManagedObject
             
             switch type {
                 
@@ -231,7 +270,7 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
             }
     }
     
-    public func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         
         self.delegate?.controllerDidChangeContent(self)
     }
@@ -243,18 +282,28 @@ final public class SearchResultsController: NSObject, NSFetchedResultsController
 public protocol SearchResultsControllerDelegate: class {
     
     /// Informs the delegate that a search request has completed with the specified error (if any).
-    func controller(controller: SearchResultsController, didPerformSearchWithError error: ErrorType?)
+    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didPerformSearchWithError error: ErrorType?)
     
-    func controllerWillChangeContent(controller: SearchResultsController)
+    func controllerWillChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>)
     
-    func controllerDidChangeContent(controller: SearchResultsController)
+    func controllerDidChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>)
     
-    func controller(controller: SearchResultsController, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt)
     
-    func controller(controller: SearchResultsController, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt)
     
-    func controller(controller: SearchResultsController, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt)
     
-    func controller(controller: SearchResultsController, didMoveManagedObject managedObject: NSManagedObject, atIndex oldIndex: UInt, toIndex newIndex: UInt)
+    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didMoveManagedObject managedObject: NSManagedObject, atIndex oldIndex: UInt, toIndex newIndex: UInt)
 }
+
+/*
+public extension SearchResultsControllerDelegate where Delegate: UITableViewController {
+    
+    
+}
+*/
+
+
+
 

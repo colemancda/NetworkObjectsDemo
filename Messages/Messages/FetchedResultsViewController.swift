@@ -20,7 +20,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Properties
     
-    final public var searchResultsController: SearchResultsController!
+    final public var searchResultsController: SearchResultsController<Client.HTTP>!
     
     /// Date the last search request was made.
     final public private(set) var dateRefreshed: Date?
@@ -115,7 +115,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         cell.userInteractionEnabled = true
         
         // Entity name + resource ID
-        cell.textLabel!.text = "\(managedObject.entity)" + "\(managedObject.valueForKey(self.searchResultsController.store.resourceIDAttributeName))"
+        cell.textLabel!.text = "\(managedObject.entity)" + "\(managedObject.valueForKey(self.searchResultsController.store.cacheStore.resourceIDAttributeName))"
     }
     
     // MARK: - Actions
@@ -133,7 +133,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     private func deleteManagedObject(managedObject: NSManagedObject) {
         
-        let resourceIDAttributeName = self.searchResultsController.store.resourceIDAttributeName
+        let resourceIDAttributeName = self.searchResultsController.store.cacheStore.resourceIDAttributeName
         
         let entityName = managedObject.entity.name!
         
@@ -141,11 +141,9 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         
         let resource = Resource(entityName, resourceID)
         
-        let timeout = self.searchResultsController.requestTimeout
-        
         self.requestQueue.addOperationWithBlock { () -> Void in
             
-            do { try self.searchResultsController.client.delete(resource, timeout: timeout) }
+            do { try self.searchResultsController.store.delete(resource) }
             
             catch {
                 
@@ -185,7 +183,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
             // get model object
             let managedObject = self.objectAtIndexPath(indexPath)
             
-            let resourceIDAttributeName = self.searchResultsController.store.resourceIDAttributeName
+            let resourceIDAttributeName = self.searchResultsController.store.cacheStore.resourceIDAttributeName
             
             let resourceID = managedObject.valueForKey(resourceIDAttributeName) as! String
             
@@ -199,11 +197,9 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
                     
                     guard let controller = self else { return }
                     
-                    let timeout = controller.searchResultsController.requestTimeout
-                    
                     let resource = Resource(managedObject.entity.name!, resourceID)
                     
-                    do { try controller.searchResultsController.client.get(resource, timeout: timeout) }
+                    do { try controller.searchResultsController.store.get(resource) }
                     
                     catch {
                         
@@ -261,7 +257,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - SearchResultsControllerDelegate
     
-    final public func controller(controller: SearchResultsController, didPerformSearchWithError error: ErrorType?) {
+    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didPerformSearchWithError error: ErrorType?) {
         
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             
@@ -331,27 +327,27 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    final public func controllerWillChangeContent(controller: SearchResultsController) {
+    final public func controllerWillChangeContent<Client: ClientType>(controller: SearchResultsController<Client>) {
         
         self.tableView.beginUpdates()
     }
     
-    final public func controllerDidChangeContent(controller: SearchResultsController) {
+    final public func controllerDidChangeContent<Client: ClientType>(controller: SearchResultsController<Client>) {
         
         self.tableView.endUpdates()
     }
     
-    final public func controller(controller: SearchResultsController, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    final public func controller(controller: SearchResultsController, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    final public func controller(controller: SearchResultsController, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
+    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
         
         let indexPath = NSIndexPath(forRow: Int(index), inSection: 0)
         
@@ -361,7 +357,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         }
     }
     
-    final public func controller(controller: SearchResultsController, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
+    final public func controller<Client: ClientType>(controller: SearchResultsController<Client>, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
         
         self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(newIndex), inSection: 0)], withRowAnimation: .Automatic)
         
