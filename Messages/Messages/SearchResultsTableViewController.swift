@@ -1,8 +1,8 @@
 //
-//  FetchedResultsViewController.swift
+//  SearchResultsTableViewController.swift
 //  NetworkObjectsUI
 //
-//  Created by Alsey Coleman Miller on 12/10/14.
+//  Created by Alsey Coleman Miller on 17/9/15.
 //  Copyright (c) 2014 ColemanCDA. All rights reserved.
 //
 
@@ -27,10 +27,40 @@ public protocol SearchResultsTableViewController: SearchResultsControllerDelegat
     
     func dequeueReusableCellForIndex(index: Int) -> TableViewCell
     
-    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil)
+    func configureCell(cell: TableViewCell, atIndex index: Int, withData data: SearchResultData<ManagedObject>)
 }
 
-/// Fetches instances of an entity on the server and displays them in a table view. 
+public extension SearchResultsTableViewController {
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        assert(tableView == self.tableView, "Only one table view is supported")
+        
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        assert(section == 1, "One a single section is supported")
+        
+        return self.searchResultsController.searchResults.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let index = indexPath.row
+        
+        let cell = self.dequeueReusableCellForIndex(index)
+        
+        let data = self.searchResultsController.dataAtIndex(index)
+        
+        self.configureCell(cell, atIndex: index, withData: data)
+        
+        return cell
+    }
+}
+
+/// Fetches instances of an entity on the server and displays them in a table view.
 ///
 /// - Note: Supports single section only.
 public class FetchedResultsViewController: UITableViewController, SearchResultsControllerDelegate {
