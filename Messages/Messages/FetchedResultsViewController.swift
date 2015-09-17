@@ -13,6 +13,23 @@ import CoreData
 import CoreModel
 import NetworkObjects
 
+public protocol SearchResultsTableViewController: SearchResultsControllerDelegate, UITableViewDataSource {
+    
+    typealias Client: ClientType
+    typealias ManagedObject: NSManagedObject
+    typealias TableViewCell: UITableViewCell
+    
+    var searchResultsController: SearchResultsController<Client, ManagedObject> { get }
+    
+    var tableView: UITableView { get }
+    
+    var refreshControl: UIRefreshControl? { get }
+    
+    func dequeueReusableCellForIndex(index: Int) -> TableViewCell
+    
+    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil)
+}
+
 /// Fetches instances of an entity on the server and displays them in a table view. 
 ///
 /// - Note: Supports single section only.
@@ -20,7 +37,7 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     // MARK: - Properties
     
-    final public var searchResultsController: SearchResultsController<Client.HTTP, FetchedResultsViewController>!
+    final public var searchResultsController: SearchResultsController!
     
     /// Date the last search request was made.
     final public private(set) var dateRefreshed: Date?
@@ -45,12 +62,6 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        assert(self.searchResultsController != nil, "Search results controller must be initialized before -viewDidLoad")
-        
-        do { try self.searchResultsController.loadCache() }
-        
-        catch { fatalError("Could not load cache. (\(error))") }
         
         // load from server
         self.refresh(self)
@@ -141,15 +152,15 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         
         let resource = Resource(entityName, resourceID)
         
-        self.requestQueue.addOperationWithBlock { () -> Void in
+        self.requestQueue.addOperationWithBlock { () in
             
             do { try self.searchResultsController.store.delete(resource) }
             
             catch {
                 
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () in
                     
-                    self.showErrorAlert("\(error)", retryHandler: { () -> Void in
+                    self.showErrorAlert("\(error)", retryHandler: { () in
                         
                         self.deleteManagedObject(managedObject)
                     })
@@ -167,7 +178,9 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     
     final public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.searchResultsController?.searchResults.count ?? 0
+        let count = self.searchResultsController?.searchResults.count
+        
+        return count ?? 0
     }
     
     final public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -255,111 +268,5 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
     public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
-    // MARK: - SearchResultsControllerDelegate
-    
-    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didPerformSearchWithError error: ErrorType?) {
-        
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            
-            // show error
-            if let searchError = error {
-                
-                self.refreshControl?.endRefreshing()
-                
-                self.showErrorAlert("\(searchError)", retryHandler: { () in self.refresh(self) })
-                
-                return
-            }
-            
-            // update table view with nice animations...
-            
-            if self.previousSearchResults != nil {
-                
-                self.tableView.beginUpdates()
-                
-                let results = self.searchResultsController!.searchResults
-                
-                let previousSearchResultsArray = self.previousSearchResults! as NSArray
-                
-                for (index, searchResult) in results.enumerate() {
-                    
-                    // already present
-                    if previousSearchResultsArray.containsObject(searchResult) {
-                        
-                        let previousIndex = previousSearchResultsArray.indexOfObject(searchResult) as Int
-                        
-                        // move cell
-                        if index != previousIndex {
-                            
-                            self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(previousIndex), inSection: 0)], withRowAnimation: .Automatic)
-                            
-                            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
-                        }
-                            
-                            // update cell
-                        else {
-                            
-                            let indexPath = NSIndexPath(forRow: Int(index), inSection: 0)
-                            
-                            if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
-                                
-                                self.configureCell(cell, atIndexPath: indexPath)
-                            }
-                        }
-                    }
-                        
-                        // new managed object
-                    else {
-                        
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
-                    }
-                }
-                
-                self.tableView.endUpdates()
-            }
-            
-            self.previousSearchResults = nil
-            
-            self.refreshControl?.endRefreshing()
-        }
-    }
-    
-    final public func controllerWillChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>) {
-        
-        self.tableView.beginUpdates()
-    }
-    
-    final public func controllerDidChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>) {
-        
-        self.tableView.endUpdates()
-    }
-    
-    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
-        
-        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
-    }
-    
-    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
-        
-        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(index), inSection: 0)], withRowAnimation: .Automatic)
-    }
-    
-    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt) {
-        
-        let indexPath = NSIndexPath(forRow: Int(index), inSection: 0)
-        
-        if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
-            
-            self.configureCell(cell, atIndexPath: indexPath)
-        }
-    }
-    
-    final public func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didMoveManagedObject managedObject: NSManagedObject, atIndex newIndex: UInt, toIndex oldIndex: UInt) {
-        
-        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: Int(newIndex), inSection: 0)], withRowAnimation: .Automatic)
-        
-        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: Int(oldIndex), inSection: 0)], withRowAnimation: .Automatic)
     }
 }

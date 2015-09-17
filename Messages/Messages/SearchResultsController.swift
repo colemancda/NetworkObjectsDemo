@@ -18,7 +18,7 @@ import UIKit
 ///
 /// - Note: Does not support sections.
 ///
-final public class SearchResultsController<Client: ClientType, Delegate: SearchResultsControllerDelegate> {
+final public class SearchResultsController<Client: ClientType, ManagedObject: NSManagedObject> {
     
     // MARK: - Properties
     
@@ -31,14 +31,14 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
     /// Sort descriptors that are additionally applied to the search results.
     public let localSortDescriptors: [NSSortDescriptor]?
     
-    /// The timeout for the requests
-    public var requestTimeout: TimeInterval = 30
-    
     /// The search controller's delegate.
-    public weak var delegate: Delegate?
+    public weak var delegate: SearchResultsControllerDelegate?
     
     /// The cached search results.
-    public private(set) var searchResults = [NSManagedObject]()
+    public private(set) var searchResults = [ManagedObject]()
+    
+    /// Date the last search request was made.
+    public private(set) var dateRefreshed: Date?
     
     // MARK: - Private Properties
     
@@ -60,12 +60,17 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
     
     // MARK: - Initialization
     
-    public init(fetchRequest: FetchRequest, store: NetworkObjects.Store<Client, CoreDataStore>, localSortDescriptors: [NSSortDescriptor]? = nil, delegate: Delegate? = nil) throws {
+    public init(fetchRequest: FetchRequest, store: NetworkObjects.Store<Client, CoreDataStore>, localSortDescriptors: [NSSortDescriptor]? = nil, delegate: SearchResultsControllerDelegate? = nil) throws {
         
         self.fetchRequest = fetchRequest
         self.store = store
         self.localSortDescriptors = localSortDescriptors
         self.delegate = delegate
+        
+        guard self.store.dateCachedAttributeName != nil else {
+            
+            fatalError("Provided Store must have a dateCachedAttributeName value")
+        }
         
         var searchRequest: NSFetchRequest!
         
@@ -95,13 +100,16 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: searchRequest, managedObjectContext: self.store.cacheStore.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
         self.fetchedResultsController.delegate = self.fetchedResultsControllerDelegate
+        
+        try self.fetchedResultsController.performFetch()
     }
     
     // MARK: - Methods
     
-    /// Fetches search results from server. 
-    /// Must call ```loadCache()``` to register for delegate notifications regarding changes to the cache.
+    /// Fetches search results from server.
     @IBAction public func performSearch(sender: AnyObject?) {
+        
+        self.dateRefreshed = Date()
         
         guard let entities = self.store.cacheStore.managedObjectContext.persistentStoreCoordinator?.managedObjectModel.entitiesByName,
             let entity: NSEntityDescription = {
@@ -120,7 +128,7 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
             
             var results: [Resource]
             
-            var managedObjects = [NSManagedObject]()
+            var managedObjects = [ManagedObject]()
             
             do {
                 results = try controller.store.search(controller.fetchRequest)
@@ -129,7 +137,7 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
                     
                     let objectID = try controller.store.cacheStore.findEntity(entity, withResourceID: resource.resourceID)!
                     
-                    let managedObject = controller.store.cacheStore.managedObjectContext.objectWithID(objectID)
+                    let managedObject = controller.store.cacheStore.managedObjectContext.objectWithID(objectID) as! ManagedObject
                     
                     managedObjects.append(managedObject)
                 }
@@ -137,30 +145,24 @@ final public class SearchResultsController<Client: ClientType, Delegate: SearchR
             
             catch {
                 
-                controller.delegate?.controller(controller, didPerformSearchWithError: error)
+                controller.store.cacheStore.managedObjectContext.performBlockAndWait({ () -> Void in
+                    
+                    controller.delegate?.controller(controller, didPerformSearchWithError: error)
+                })
                 
                 return
             }
             
-            controller.searchResults = managedObjects
-            
-            controller.delegate?.controller(controller, didPerformSearchWithError: nil)
+            controller.store.cacheStore.managedObjectContext.performBlockAndWait({ () -> Void in
+                
+                controller.searchResults = managedObjects
+                
+                controller.delegate?.controller(controller, didPerformSearchWithError: nil)
+            })
         }
     }
     
-    /// Loads caches objects. Does not fetch from server.
-    /// 
-    /// Call this to recieve delegate notificationes about changes in the cache.
-    public func loadCache() throws {
-        
-        try self.fetchedResultsController.performFetch()
-    }
     
-    /// Fetches the managed object at the specified index path from the data source.
-    public func objectAtIndex(index: UInt) -> NSManagedObject {
-        
-        return self.searchResults[Int(index)]
-    }
 }
 
 // MARK: - Private
@@ -215,6 +217,8 @@ extension SearchResultsController: InternalFetchedResultsControllerDelegate {
         forChangeType type: NSFetchedResultsChangeType,
         newIndexPath: NSIndexPath?) {
             
+            let genericManagedObject = managedObject as! ManagedObject
+            
             switch type {
                 
             case .Insert:
@@ -225,19 +229,19 @@ extension SearchResultsController: InternalFetchedResultsControllerDelegate {
                     return
                 }
                 
-                self.searchResults.append(managedObject)
+                self.searchResults.append(genericManagedObject)
                 
-                self.searchResults = (self.searchResults as NSArray).sortedArrayUsingDescriptors(self.originalFetchRequest.sortDescriptors!) as! [NSManagedObject]
+                self.searchResults = (self.searchResults as NSArray).sortedArrayUsingDescriptors(self.originalFetchRequest.sortDescriptors!) as! [ManagedObject]
                 
                 let row = (self.searchResults as NSArray).indexOfObject(managedObject)
                 
-                self.delegate?.controller(self, didInsertManagedObject: managedObject, atIndex: UInt(row))
+                self.delegate?.controller(self, didInsertManagedObject: genericManagedObject, atIndex: row)
                 
             case .Update:
                 
                 let row = (self.searchResults as NSArray).indexOfObject(managedObject)
                 
-                self.delegate?.controller(self, didUpdateManagedObject: managedObject, atIndex: UInt(row))
+                self.delegate?.controller(self, didUpdateManagedObject: genericManagedObject, atIndex: row)
                 
             case .Move:
                 
@@ -245,13 +249,13 @@ extension SearchResultsController: InternalFetchedResultsControllerDelegate {
                 
                 let oldRow = (self.searchResults as NSArray).indexOfObject(managedObject)
                 
-                self.searchResults = (self.searchResults as NSArray).sortedArrayUsingDescriptors(self.originalFetchRequest.sortDescriptors!) as! [NSManagedObject]
+                self.searchResults = (self.searchResults as NSArray).sortedArrayUsingDescriptors(self.originalFetchRequest.sortDescriptors!) as! [ManagedObject]
                 
                 let newRow = (self.searchResults as NSArray).indexOfObject(managedObject)
                 
                 if newRow != oldRow {
                     
-                    self.delegate?.controller(self, didMoveManagedObject: managedObject, atIndex: UInt(oldRow), toIndex: UInt(newRow))
+                    self.delegate?.controller(self, didMoveManagedObject: genericManagedObject, atIndex: oldRow, toIndex: newRow)
                 }
                 
             case .Delete:
@@ -266,7 +270,7 @@ extension SearchResultsController: InternalFetchedResultsControllerDelegate {
                 
                 self.searchResults.removeAtIndex(row)
                 
-                self.delegate?.controller(self, didDeleteManagedObject: managedObject, atIndex: UInt(row))
+                self.delegate?.controller(self, didDeleteManagedObject: genericManagedObject, atIndex: row)
             }
     }
     
@@ -281,20 +285,91 @@ extension SearchResultsController: InternalFetchedResultsControllerDelegate {
 /// Delegate methods for the search controller.
 public protocol SearchResultsControllerDelegate: class {
     
+    // Request Callback
+    
     /// Informs the delegate that a search request has completed with the specified error (if any).
-    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didPerformSearchWithError error: ErrorType?)
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didPerformSearchWithError error: ErrorType?)
     
-    func controllerWillChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>)
+    // Notification Callbacks
     
-    func controllerDidChangeContent<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>)
+    func controllerWillChangeContent<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>)
     
-    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didInsertManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controllerDidChangeContent<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>)
     
-    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didDeleteManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didInsertManagedObject managedObject: ManagedObject, atIndex index: Int)
     
-    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didUpdateManagedObject managedObject: NSManagedObject, atIndex index: UInt)
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didDeleteManagedObject managedObject: ManagedObject, atIndex index: Int)
     
-    func controller<Client: ClientType, Delegate: SearchResultsControllerDelegate>(controller: SearchResultsController<Client, Delegate>, didMoveManagedObject managedObject: NSManagedObject, atIndex oldIndex: UInt, toIndex newIndex: UInt)
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didUpdateManagedObject managedObject: ManagedObject, atIndex index: Int)
+    
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didMoveManagedObject managedObject: ManagedObject, atIndex oldIndex: Int, toIndex newIndex: Int)
+}
+
+// MARK: - Protocol Implementation
+
+extension SearchResultsControllerDelegate where Self: UITableViewController {
+    
+    public func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didPerformSearchWithError error: ErrorType?) {
+        
+        self.refreshControl?.endRefreshing()
+        
+        // show error
+        if let searchError = error {
+            
+            let text: String
+            
+            if searchError.dynamicType == NSError.self {
+                
+                text = (searchError as NSError).localizedDescription
+            }
+            else {
+                
+                text = "\(searchError)"
+            }
+            
+            self.showErrorAlert(text, retryHandler: nil)
+            
+            return
+        }
+    }
+    
+    public func controllerWillChangeContent<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>) {
+        self.tableView.beginUpdates()
+    }
+    
+    public func controllerDidChangeContent<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>) {
+        
+        self.tableView.endUpdates()
+    }
+    
+    public func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didInsertManagedObject managedObject: ManagedObject, atIndex index: Int) {
+        
+        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    public func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didDeleteManagedObject managedObject: ManagedObject, atIndex index: Int) {
+        
+        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    /*
+    public func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didUpdateManagedObject managedObject: ManagedObject, atIndex index: Int) {
+        
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        
+        if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
+            
+            self.configureCell(cell, atIndexPath: indexPath)
+        }
+    }
+    */
+    
+    func controller<Client: ClientType, ManagedObject: NSManagedObject>(controller: SearchResultsController<Client, ManagedObject>, didMoveManagedObject managedObject: ManagedObject, atIndex newIndex: Int, toIndex oldIndex: Int) {
+        
+        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: newIndex, inSection: 0)], withRowAnimation: .Automatic)
+        
+        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: oldIndex, inSection: 0)], withRowAnimation: .Automatic)
+    }
 }
 
 

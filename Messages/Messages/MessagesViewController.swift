@@ -55,6 +55,10 @@ class MessagesViewController: FetchedResultsViewController {
         }
     }
     
+    // MARK: - Private Properties
+    
+    private let dateFormatter = StyledDateFormatter(dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+    
     // MARK: - Actions
     
     @IBAction func create(sender: AnyObject) {
@@ -118,27 +122,29 @@ class MessagesViewController: FetchedResultsViewController {
     
     override func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil) {
         
+        let messageCell = cell as! MessageCell
+        
         if error != nil {
             
-            cell.textLabel!.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
+            messageCell.messageTextLabel.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
+            
+            messageCell.dateTextLabel.text = ""
             
             return
         }
         
         // get model object
-        let managedObject = self.objectAtIndexPath(indexPath)
-        
-        let resourceID = managedObject.valueForKey(CoreMessages.ResourceIDAttributeName) as! String
+        let message = self.objectAtIndexPath(indexPath) as! Message
         
         // get date cached
-        let dateCached = self.datesCached[resourceID]
+        let dateCached = message.valueForKey(CoreMessages.DateCachedAttributeName) as? NSDate
         
         // configure empty cell...
         if dateCached == nil {
             
-            cell.textLabel?.text = NSLocalizedString("Loading...", comment: "Loading...")
+            messageCell.messageTextLabel.text = NSLocalizedString("Loading...", comment: "Loading...")
             
-            cell.detailTextLabel?.text = ""
+            messageCell.dateTextLabel.text = ""
             
             cell.userInteractionEnabled = false
             
@@ -148,8 +154,9 @@ class MessagesViewController: FetchedResultsViewController {
         // configure cell...
         cell.userInteractionEnabled = true
         
-        // Entity name + resource ID
-        cell.textLabel!.text = "\(managedObject.entity)"
+        messageCell.messageTextLabel.text = message.text!
+        
+        messageCell.dateTextLabel.text = self.dateFormatter.stringFromValue(message.date!)
     }
     
     // MARK: - UITableViewDelegate
