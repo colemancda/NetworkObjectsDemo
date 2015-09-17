@@ -13,9 +13,13 @@ import CoreModel
 import CoreData
 import CoreMessages
 
-class MessagesViewController: FetchedResultsViewController {
+class MessagesViewController: UITableViewController, SearchResultsTableViewController {
     
     // MARK: - Properties
+    
+    var client: NetworkObjects.Client.HTTP!
+    
+    var searchResultsController: SearchResultsController<MessagesViewController>!
     
     var serverURL: String! {
         
@@ -49,9 +53,7 @@ class MessagesViewController: FetchedResultsViewController {
             
             let store = NetworkObjects.Store(client: client, cacheStore: cacheStore, dateCachedAttributeName: CoreMessages.DateCachedAttributeName)
             
-            self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store)
-            
-            self.searchResultsController.delegate = self
+            self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store, delegate: self)
         }
     }
     
@@ -59,7 +61,20 @@ class MessagesViewController: FetchedResultsViewController {
     
     private let dateFormatter = StyledDateFormatter(dateStyle: .ShortStyle, timeStyle: .ShortStyle)
     
+    // MARK: - Initialization
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.refresh(self)
+    }
+    
     // MARK: - Actions
+    
+    @IBAction func refresh(sender: AnyObject) {
+        
+        self.searchResultsController.performSearch(self)
+    }
     
     @IBAction func create(sender: AnyObject) {
         
@@ -111,52 +126,48 @@ class MessagesViewController: FetchedResultsViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    // MARK: - Methods
+    // MARK: - SearchResultsTableViewController
     
-    override func dequeueReusableCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    func dequeueReusableCellForIndex(index: Int) -> MessageCell {
         
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath)
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath) as! MessageCell
         
         return cell
     }
     
-    override func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath, withError error: ErrorType? = nil) {
+    func configureCell(cell: MessageCell, atIndex index: Int, withData data: SearchResultData<Message>, error: ErrorType?) {
         
-        let messageCell = cell as! MessageCell
-        
-        if error != nil {
-            
-            messageCell.messageTextLabel.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
-            
-            messageCell.dateTextLabel.text = ""
-            
-            return
-        }
-        
-        // get model object
-        let message = self.objectAtIndexPath(indexPath) as! Message
-        
-        // get date cached
-        let dateCached = message.valueForKey(CoreMessages.DateCachedAttributeName) as? NSDate
-        
-        // configure empty cell...
-        if dateCached == nil {
-            
-            messageCell.messageTextLabel.text = NSLocalizedString("Loading...", comment: "Loading...")
-            
-            messageCell.dateTextLabel.text = ""
+        guard error == nil else {
             
             cell.userInteractionEnabled = false
             
+            cell.messageTextLabel.text = NSLocalizedString("Error: ", comment: "Error: ") + "\(error!)"
+            
+            cell.dateTextLabel.text = ""
+            
             return
         }
         
-        // configure cell...
-        cell.userInteractionEnabled = true
-        
-        messageCell.messageTextLabel.text = message.text!
-        
-        messageCell.dateTextLabel.text = self.dateFormatter.stringFromValue(message.date!)
+        switch data {
+            
+        case .NotCached(_):
+            
+            cell.userInteractionEnabled = false
+            
+            cell.messageTextLabel.text = NSLocalizedString("Loading...", comment: "Loading...")
+            
+            cell.dateTextLabel.text = ""
+            
+        case let .Cached(message):
+            
+            cell.userInteractionEnabled = true
+            
+            cell.messageTextLabel.text = message.text!
+            
+            cell.dateTextLabel.text = self.dateFormatter.stringFromValue(message.date!)
+        }
     }
     
     // MARK: - UITableViewDelegate
@@ -165,7 +176,9 @@ class MessagesViewController: FetchedResultsViewController {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        // show edit panel
+        // show edit controller
+        
+        
     }
 }
 

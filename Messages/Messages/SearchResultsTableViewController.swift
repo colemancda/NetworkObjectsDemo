@@ -13,13 +13,11 @@ import CoreData
 import CoreModel
 import NetworkObjects
 
-public protocol SearchResultsTableViewController: SearchResultsControllerDelegate, UITableViewDataSource {
+public protocol SearchResultsTableViewController: SearchResultsControllerDelegate {
     
-    typealias Client: ClientType
-    typealias ManagedObject: NSManagedObject
     typealias TableViewCell: UITableViewCell
     
-    var searchResultsController: SearchResultsController<Client, ManagedObject> { get }
+    var searchResultsController: SearchResultsController<Self> { get }
     
     var tableView: UITableView { get }
     
@@ -27,10 +25,12 @@ public protocol SearchResultsTableViewController: SearchResultsControllerDelegat
     
     func dequeueReusableCellForIndex(index: Int) -> TableViewCell
     
-    func configureCell(cell: TableViewCell, atIndex index: Int, withData data: SearchResultData<ManagedObject>)
+    func configureCell(cell: TableViewCell, atIndex index: Int, withData data: SearchResultData<ManagedObject>, error: ErrorType?)
 }
 
-public extension SearchResultsTableViewController {
+public extension SearchResultsTableViewController where Self: UIViewController, Self: UITableViewDataSource {
+    
+    // MARK: - UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
@@ -54,12 +54,89 @@ public extension SearchResultsTableViewController {
         
         let data = self.searchResultsController.dataAtIndex(index)
         
-        self.configureCell(cell, atIndex: index, withData: data)
+        self.configureCell(cell, atIndex: index, withData: data, error: nil)
         
         return cell
     }
+    
+    // MARK: - SearchResultsControllerDelegate
+    
+    public func controller(controller: Controller, didPerformSearchWithError error: ErrorType?) {
+        
+        self.refreshControl?.endRefreshing()
+        
+        // show error
+        if let searchError = error {
+            
+            let text: String
+            
+            if searchError.dynamicType == NSError.self {
+                
+                text = (searchError as NSError).localizedDescription
+            }
+            else {
+                
+                text = "\(searchError)"
+            }
+            
+            self.showErrorAlert(text, retryHandler: nil)
+            
+            return
+        }
+    }
+    
+    public func controllerWillChangeContent(controller: Controller) {
+        self.tableView.beginUpdates()
+    }
+    
+    public func controllerDidChangeContent(controller: Controller) {
+        
+        self.tableView.endUpdates()
+    }
+    
+    public func controller(controller: Controller, didInsertManagedObject managedObject: ManagedObject, atIndex index: Int) {
+        
+        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    public func controller(controller: Controller, didDeleteManagedObject managedObject: ManagedObject, atIndex index: Int) {
+        
+        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    public func controller(controller: Controller, didUpdateManagedObject managedObject: ManagedObject, atIndex index: Int, error: ErrorType?) {
+    
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+    
+        if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TableViewCell {
+            
+            let resourceIDAttributeName = self.searchResultsController.store.cacheStore.resourceIDAttributeName
+            
+            let dateCachedAttributeName = self.searchResultsController.store.dateCachedAttributeName!
+            
+            let resourceID = (managedObject as NSManagedObject).valueForKey(resourceIDAttributeName) as! String
+            
+            let data: SearchResultData<ManagedObject>
+            
+            if let _ = (managedObject as NSManagedObject).valueForKey(dateCachedAttributeName) as? NSDate {
+                
+                data = SearchResultData.Cached(managedObject)
+            }
+            else { data = SearchResultData.NotCached(resourceID) }
+    
+            self.configureCell(cell, atIndex: indexPath.row, withData: data, error: error)
+        }
+    }
+    
+    public func controller(controller: Controller, didMoveManagedObject managedObject: ManagedObject, atIndex newIndex: Int, toIndex oldIndex: Int) {
+        
+        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: newIndex, inSection: 0)], withRowAnimation: .Automatic)
+        
+        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: oldIndex, inSection: 0)], withRowAnimation: .Automatic)
+    }
 }
 
+/*
 /// Fetches instances of an entity on the server and displays them in a table view.
 ///
 /// - Note: Supports single section only.
@@ -300,3 +377,4 @@ public class FetchedResultsViewController: UITableViewController, SearchResultsC
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
+*/
