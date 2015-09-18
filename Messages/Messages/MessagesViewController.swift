@@ -13,47 +13,17 @@ import CoreModel
 import CoreData
 import CoreMessages
 
-class MessagesViewController: UITableViewController, SearchResultsTableViewController {
+class MessagesViewController: UITableViewController {
     
     // MARK: - Properties
     
-    var client: NetworkObjects.Client.HTTP!
-    
-    var searchResultsController: SearchResultsController<MessagesViewController>!
+    var searchResultsController: SearchResultsController<Client.HTTP, Message>!
     
     var serverURL: String! {
         
         didSet {
             
-            let managedObjectModel = CoreMessages.ManagedObjectModel()
-            
-            let model = managedObjectModel.toModel()!
-            
-            let client = NetworkObjects.Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
-            
-            managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
-            
-            managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
-            
-            managedObjectModel.markAllPropertiesAsOptional()
-            
-            let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-            
-            context.undoManager = nil
-            
-            context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-            
-            try! context.persistentStoreCoordinator!.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-            
-            let cacheStore = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
-            
-            let sort = CoreModel.SortDescriptor(propertyName: Message.Attribute.Date.rawValue, ascending: false)
-            
-            let fetchRequest = FetchRequest(entityName: Message.EntityName, sortDescriptors: [sort])
-            
-            let store = NetworkObjects.Store(client: client, cacheStore: cacheStore, dateCachedAttributeName: CoreMessages.DateCachedAttributeName)
-            
-            self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store, delegate: self)
+            self.configure()
         }
     }
     
@@ -63,10 +33,110 @@ class MessagesViewController: UITableViewController, SearchResultsTableViewContr
     
     // MARK: - Initialization
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.refresh(self)
+    }
+    
+    // MARK: - Methods
+    
+    func configure() {
+        
+        let managedObjectModel = CoreMessages.ManagedObjectModel()
+        
+        let model = managedObjectModel.toModel()!
+        
+        let client = NetworkObjects.Client.HTTP(serverURL: serverURL, model: model, HTTPClient: HTTP.Client())
+        
+        managedObjectModel.addResourceIDAttribute(CoreMessages.ResourceIDAttributeName)
+        
+        managedObjectModel.addDateCachedAttribute(CoreMessages.DateCachedAttributeName)
+        
+        managedObjectModel.markAllPropertiesAsOptional()
+        
+        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        
+        context.undoManager = nil
+        
+        context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        
+        try! context.persistentStoreCoordinator!.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
+        
+        let cacheStore = CoreDataStore(model: model, managedObjectContext: context, resourceIDAttributeName: CoreMessages.ResourceIDAttributeName)!
+        
+        let sort = CoreModel.SortDescriptor(propertyName: Message.Attribute.Date.rawValue, ascending: false)
+        
+        let fetchRequest = FetchRequest(entityName: Message.EntityName, sortDescriptors: [sort])
+        
+        let store = NetworkObjects.Store(client: client, cacheStore: cacheStore, dateCachedAttributeName: CoreMessages.DateCachedAttributeName)
+        
+        self.searchResultsController = try! SearchResultsController(fetchRequest: fetchRequest, store: store)
+        
+        // setup events
+        
+        self.searchResultsController.notifyChanges = true
+        
+        self.searchResultsController.event.didPerformSearch = { (error) in
+            
+            self.refreshControl?.endRefreshing()
+            
+            // show error
+            if let searchError = error {
+                
+                let text: String
+                
+                if searchError.dynamicType == NSError.self {
+                    
+                    text = (searchError as NSError).localizedDescription
+                }
+                else {
+                    
+                    text = "\(searchError)"
+                }
+                
+                self.showErrorAlert(text, retryHandler: nil)
+                
+                return
+            }
+        }
+        
+        self.searchResultsController.event.willChangeContent = { self.tableView.beginUpdates() }
+        
+        self.searchResultsController.event.didChangeContent = { self.tableView.endUpdates() }
+        
+        self.searchResultsController.event.didInsert = { (index) in
+            
+            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+        }
+        
+        self.searchResultsController.event.didDelete = { (index) in
+            
+            self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+        }
+        
+        self.searchResultsController.event.didUpdate = { (index, error) in
+            
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            
+            if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? MessageCell {
+                
+                self.configureCell(cell, atIndex: indexPath.row, error: error)
+            }
+        }
+        
+        self.searchResultsController.event.didMove = { (oldIndex, newIndex) in
+            
+            self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: newIndex, inSection: 0)], withRowAnimation: .Automatic)
+            
+            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: oldIndex, inSection: 0)], withRowAnimation: .Automatic)
+        }
     }
     
     // MARK: - Actions
@@ -137,7 +207,7 @@ class MessagesViewController: UITableViewController, SearchResultsTableViewContr
         return cell
     }
     
-    func configureCell(cell: MessageCell, atIndex index: Int, withData data: SearchResultData<Message>, error: ErrorType?) {
+    func configureCell(cell: MessageCell, atIndex index: Int, error: ErrorType?) {
         
         guard error == nil else {
             
@@ -149,6 +219,8 @@ class MessagesViewController: UITableViewController, SearchResultsTableViewContr
             
             return
         }
+        
+        let data = self.searchResultsController.dataAtIndex(index)
         
         switch data {
             
@@ -168,6 +240,33 @@ class MessagesViewController: UITableViewController, SearchResultsTableViewContr
             
             cell.dateTextLabel.text = self.dateFormatter.stringFromValue(message.date!)
         }
+    }
+    
+    // MARK: - UITableViewDataSource
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        assert(tableView == self.tableView, "Only one table view is supported")
+        
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        assert(section == 1, "One a single section is supported")
+        
+        return self.searchResultsController.searchResults.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let index = indexPath.row
+        
+        let cell = self.dequeueReusableCellForIndex(index)
+        
+        self.configureCell(cell, atIndex: index, error: nil)
+        
+        return cell
     }
     
     // MARK: - UITableViewDelegate
