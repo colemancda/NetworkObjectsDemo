@@ -393,9 +393,9 @@ public struct SearchResultsControllerEvent {
     
     // Change Notification Callbacks
     
-    public var willChangeContent: (() -> ()) = { () in }
+    public var willChangeContent: (() -> ()) = { }
     
-    public var didChangeContent: (() -> ()) = { () in }
+    public var didChangeContent: (() -> ()) = { }
     
     public var didInsert: ((index: Int) -> ()) = { (index) in }
     
