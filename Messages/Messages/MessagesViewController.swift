@@ -82,7 +82,7 @@ class MessagesViewController: UITableViewController {
         self.searchResultsController.notifyChanges = true
         
         self.searchResultsController.event.didPerformSearch = { (error) in
-            
+                        
             self.refreshControl?.endRefreshing()
             
             // show error

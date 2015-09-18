@@ -259,7 +259,40 @@ final public class SearchResultsController<Client: ClientType, ManagedObject: NS
             
             controller.managedObjectContext.performBlockAndWait({ () -> Void in
                 
+                let previousSearchResultsArray = controller.searchResults as NSArray
+                
+                controller.event.willChangeContent()
+                
+                for (index, searchResult) in managedObjects.enumerate() {
+                    
+                    // already present
+                    if previousSearchResultsArray.containsObject(searchResult) {
+                        
+                        let previousIndex = previousSearchResultsArray.indexOfObject(searchResult) as Int
+                        
+                        // move cell
+                        if index != previousIndex {
+                            
+                            controller.event.didMove(index: previousIndex, newIndex: index)
+                        }
+                            
+                            // update cell
+                        else {
+                            
+                            controller.event.didUpdate(index: index, error: nil)
+                        }
+                    }
+                        
+                        // new managed object
+                    else {
+                        
+                        controller.event.didInsert(index: index)
+                    }
+                }
+                
                 controller.searchResults = managedObjects
+                
+                controller.event.didChangeContent()
                 
                 controller.event.didPerformSearch(error: nil)
             })
