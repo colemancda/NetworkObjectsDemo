@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Foundation
 import SwiftFoundation
-import NetworkObjects
 import CoreModel
+import NetworkObjects
 import CoreData
 import CoreMessages
 
@@ -17,14 +18,11 @@ class MessagesViewController: UITableViewController {
     
     // MARK: - Properties
     
-    var searchResultsController: SearchResultsController<Client.HTTP, Message>!
+    var searchResultsController: SearchResultsController<Client.HTTP, CoreMessages.Message>!
     
     var serverURL: String! {
         
-        didSet {
-            
-            self.configure()
-        }
+        didSet { self.configure() }
     }
     
     // MARK: - Private Properties
@@ -36,7 +34,7 @@ class MessagesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        //self.configure()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -196,17 +194,6 @@ class MessagesViewController: UITableViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    // MARK: - SearchResultsTableViewController
-    
-    func dequeueReusableCellForIndex(index: Int) -> MessageCell {
-        
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath) as! MessageCell
-        
-        return cell
-    }
-    
     func configureCell(cell: MessageCell, atIndex index: Int, error: ErrorType?) {
         
         guard error == nil else {
@@ -222,6 +209,8 @@ class MessagesViewController: UITableViewController {
         
         let data = self.searchResultsController.dataAtIndex(index)
         
+        let message = self.searchResultsController.searchResults[index]
+        
         switch data {
             
         case .NotCached(_):
@@ -232,7 +221,8 @@ class MessagesViewController: UITableViewController {
             
             cell.dateTextLabel.text = ""
             
-        case let .Cached(message):
+        // For some reason the compiler will crash with the .Cached case
+        default:
             
             cell.userInteractionEnabled = true
             
@@ -253,16 +243,16 @@ class MessagesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        assert(section == 1, "One a single section is supported")
+        assert(section == 0, "One a single section is supported")
         
         return self.searchResultsController.searchResults.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let index = indexPath.row
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(MessageCell.Identifier, forIndexPath: indexPath) as! MessageCell
         
-        let cell = self.dequeueReusableCellForIndex(index)
+        let index = indexPath.row
         
         self.configureCell(cell, atIndex: index, error: nil)
         

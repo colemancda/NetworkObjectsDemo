@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1AD4DDCF1B9D0257000A582D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDCE1B9D0257000A582D /* AppDelegate.swift */; };
-		1AD4DDD11B9D0257000A582D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD01B9D0257000A582D /* LoginViewController.swift */; };
 		1AD4DDD41B9D0257000A582D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD21B9D0257000A582D /* Main.storyboard */; };
 		1AD4DDD61B9D0257000A582D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD51B9D0257000A582D /* Assets.xcassets */; };
 		1AD4DDD91B9D0257000A582D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD71B9D0257000A582D /* LaunchScreen.storyboard */; };
 		1AD4DDE41B9D0257000A582D /* MessagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDE31B9D0257000A582D /* MessagesTests.swift */; };
-		6E26E0081BA543A000799B94 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E0071BA543A000799B94 /* MessagesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6E26E00F1BA62AE100799B94 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00B1BA62AE000799B94 /* ErrorAlert.swift */; settings = {ASSET_TAGS = (); }; };
 		6E26E0101BA62AE100799B94 /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00C1BA62AE100799B94 /* NetworkActivityIndicatorManager.swift */; settings = {ASSET_TAGS = (); }; };
 		6E26E0111BA62AE100799B94 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E00D1BA62AE100799B94 /* SearchResultsController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -37,6 +35,8 @@
 		6E783EB61BA940AF0086115D /* SwiftFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6E783EA51BA940A00086115D /* SwiftFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6E783EB71BA940AF0086115D /* SwiftWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E783EA61BA940A00086115D /* SwiftWebSocket.framework */; };
 		6E783EB81BA940AF0086115D /* SwiftWebSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6E783EA61BA940A00086115D /* SwiftWebSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6E933E701BABA98100454193 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4DDD01B9D0257000A582D /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		6E933E721BABAA1D00454193 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26E0071BA543A000799B94 /* MessagesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -362,11 +362,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E26E0081BA543A000799B94 /* MessagesViewController.swift in Sources */,
+				6E933E721BABAA1D00454193 /* MessagesViewController.swift in Sources */,
 				6E26E00F1BA62AE100799B94 /* ErrorAlert.swift in Sources */,
-				1AD4DDD11B9D0257000A582D /* LoginViewController.swift in Sources */,
 				1AD4DDCF1B9D0257000A582D /* AppDelegate.swift in Sources */,
 				6E26E0111BA62AE100799B94 /* SearchResultsController.swift in Sources */,
+				6E933E701BABA98100454193 /* LoginViewController.swift in Sources */,
 				6E26E0101BA62AE100799B94 /* NetworkActivityIndicatorManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
