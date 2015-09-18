@@ -181,27 +181,26 @@ final public class SearchResultsController<Client: ClientType, ManagedObject: NS
                         
                         let resource = Resource(managedObject.entity.name!, resourceID)
                         
+                        var requestError: ErrorType?
+                        
                         do { try controller.store.get(resource) }
                             
-                        catch {
-                            
-                            // make sure the table view hasnt been refreshed at a later date.
-                            guard dateRefreshed == controller.dateRefreshed &&
-                                searchResults == controller.searchResults
-                                else { return }
-                            
-                            // configure cell for error
-                            controller.managedObjectContext.performBlock {
-                                
-                                controller.event.willChangeContent()
-                                
-                                controller.event.didUpdate(index: index, error: error)
-                                
-                                controller.event.didChangeContent()
-                            }
-                        }
+                        catch { requestError = error }
                         
-                        // fetched results controller should update cell...
+                        // make sure the table view hasnt been refreshed at a later date.
+                        guard dateRefreshed == controller.dateRefreshed &&
+                            searchResults == controller.searchResults
+                            else { return }
+                        
+                        // configure cell for error
+                        controller.managedObjectContext.performBlock {
+                            
+                            controller.event.willChangeContent()
+                            
+                            controller.event.didUpdate(index: index, error: requestError)
+                            
+                            controller.event.didChangeContent()
+                        }
                     })
                 }
             }
