@@ -308,35 +308,20 @@ class MessagesViewController: UITableViewController {
                 let text = textField.text!
                 
                 let values = [Message.Attribute.Text.rawValue: Value.Attribute(AttributeValue.String(text))]
-                
-                let cell = tableView.cellForRowAtIndexPath(indexPath)!
-                
+                                
                 NSOperationQueue().addOperationWithBlock({ () -> Void in
                     
                     do { try self.searchResultsController.store.edit(resource, changes: values) }
                         
                     catch {
                         
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () in
                             
                             self.showErrorAlert("\(error)")
                         })
                         
                         return
                     }
-                    
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        
-                        let newIndexPath = tableView.indexPathForCell(cell)
-                        
-                        guard newIndexPath == indexPath else { return }
-                        
-                        tableView.beginUpdates()
-                        
-                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                        
-                        tableView.endUpdates()
-                    })
                 })
         }))
         
