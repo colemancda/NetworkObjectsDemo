@@ -29,6 +29,15 @@ class MessagesViewController: UITableViewController {
     
     private let dateFormatter = StyledDateFormatter(dateStyle: .ShortStyle, timeStyle: .ShortStyle)
     
+    private let requestQueue: NSOperationQueue = {
+        
+        let queue = NSOperationQueue()
+        
+        queue.name = "MessagesViewController Request Queue"
+        
+        return queue
+        }()
+    
     // MARK: - Initialization
     
     override func viewDidLoad() {
@@ -43,7 +52,62 @@ class MessagesViewController: UITableViewController {
         self.refresh(self)
     }
     
-    // MARK: - Methods
+    // MARK: - Actions
+    
+    @IBAction func refresh(sender: AnyObject) {
+        
+        self.searchResultsController.performSearch(self)
+    }
+    
+    @IBAction func create(sender: AnyObject) {
+        
+        let alertController = UIAlertController(title: NSLocalizedString("Create", comment: "Create"),
+            message: NSLocalizedString("Enter the text of the message", comment: "Enter the text of the message"),
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+            
+            textField.placeholder = NSLocalizedString("Message Text", comment: "Message Text")
+        }
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Create", comment: "Create"),
+            style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                
+                let textField = alertController.textFields!.first!
+                
+                let text = textField.text!
+                
+                let values = [Message.Attribute.Text.rawValue: Value.Attribute(AttributeValue.String(text))]
+                
+                NSOperationQueue().addOperationWithBlock({ () -> Void in
+                    
+                    do { try self.searchResultsController.store.create(Message.EntityName, initialValues: values) }
+                        
+                    catch {
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            
+                            self.showErrorAlert("\(error)")
+                        })
+                        
+                        return
+                    }
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        
+                        
+                    })
+                })
+        }))
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"),
+            style: UIAlertActionStyle.Destructive, handler: { (action: UIAlertAction) -> Void in
+                
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
     
     func configure() {
         
@@ -137,63 +201,6 @@ class MessagesViewController: UITableViewController {
         }
     }
     
-    // MARK: - Actions
-    
-    @IBAction func refresh(sender: AnyObject) {
-        
-        self.searchResultsController.performSearch(self)
-    }
-    
-    @IBAction func create(sender: AnyObject) {
-        
-        let alertController = UIAlertController(title: NSLocalizedString("Create", comment: "Create"),
-            message: NSLocalizedString("Enter the text of the message", comment: "Enter the text of the message"),
-            preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
-            
-            textField.placeholder = NSLocalizedString("Message Text", comment: "Message Text")
-        }
-        
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Create", comment: "Create"),
-            style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-                
-                let textField = alertController.textFields!.first!
-                
-                let text = textField.text!
-                
-                let values = [Message.Attribute.Text.rawValue: Value.Attribute(AttributeValue.String(text))]
-                
-                NSOperationQueue().addOperationWithBlock({ () -> Void in
-                    
-                    do { try self.searchResultsController.store.create(Message.EntityName, initialValues: values) }
-                    
-                    catch {
-                        
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            
-                            self.showErrorAlert("\(error)")
-                        })
-                        
-                        return
-                    }
-                    
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        
-                        
-                    })
-                })
-        }))
-        
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"),
-            style: UIAlertActionStyle.Destructive, handler: { (action: UIAlertAction) -> Void in
-                
-                alertController.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     func configureCell(cell: MessageCell, atIndex index: Int, error: ErrorType?) {
         
         guard error == nil else {
@@ -265,9 +272,130 @@ class MessagesViewController: UITableViewController {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        // show edit controller
+        let data = self.searchResultsController.dataAtIndex(indexPath.row)
         
+        switch data {
+            
+        case .NotCached(_): return
+            
+        default: break
+        }
         
+        let message = self.searchResultsController.searchResults[indexPath.row]
+        
+        let resourceIDAttributeName = self.searchResultsController.store.cacheStore.resourceIDAttributeName
+        
+        let resouceID = message.valueForKey(resourceIDAttributeName) as! String
+        
+        let resource = Resource(message.entity.name!, resouceID)
+        
+        // edit
+        
+        let alertController = UIAlertController(title: NSLocalizedString("Edit", comment: "Edit"),
+            message: NSLocalizedString("Enter the text of the message", comment: "Enter the text of the message"),
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+            
+            textField.text = message.text!
+        }
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Edit", comment: "Edit"),
+            style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                
+                let textField = alertController.textFields!.first!
+                
+                let text = textField.text!
+                
+                let values = [Message.Attribute.Text.rawValue: Value.Attribute(AttributeValue.String(text))]
+                
+                let cell = tableView.cellForRowAtIndexPath(indexPath)!
+                
+                NSOperationQueue().addOperationWithBlock({ () -> Void in
+                    
+                    do { try self.searchResultsController.store.edit(resource, changes: values) }
+                        
+                    catch {
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            
+                            self.showErrorAlert("\(error)")
+                        })
+                        
+                        return
+                    }
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        
+                        let newIndexPath = tableView.indexPathForCell(cell)
+                        
+                        guard newIndexPath == indexPath else { return }
+                        
+                        tableView.beginUpdates()
+                        
+                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        
+                        tableView.endUpdates()
+                    })
+                })
+        }))
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"),
+            style: UIAlertActionStyle.Destructive, handler: { (action: UIAlertAction) -> Void in
+                
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        
+        return .Delete
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // get model object
+        let managedObject = self.searchResultsController.searchResults[indexPath.row]
+        
+        switch editingStyle {
+            
+        case .Delete:
+            
+            self.deleteManagedObject(managedObject)
+            
+        default:
+            
+            return
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func deleteManagedObject(managedObject: NSManagedObject) {
+        
+        let resourceIDAttributeName = self.searchResultsController.store.cacheStore.resourceIDAttributeName
+        
+        let resouceID = managedObject.valueForKey(resourceIDAttributeName) as! String
+        
+        let resource = Resource(managedObject.entity.name!, resouceID)
+        
+        self.requestQueue.addOperationWithBlock { () in
+            
+            do { try self.searchResultsController.store.delete(resource) }
+            
+            catch {
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () in
+                    
+                    self.showErrorAlert("\(error)", retryHandler: { () -> Void in
+                        
+                        self.deleteManagedObject(managedObject)
+                    })
+                })
+            }
+        }
     }
 }
 
